@@ -1,0 +1,125 @@
+<!-- Gallery Section -->
+<section id="gallery" class="section gallery-section">
+    <div class="container">
+        <h2 class="section-title">Portfolio Gallery</h2>
+        
+        <!-- Gallery Filters -->
+        <div class="gallery-filters">
+            <button class="gallery-filter-btn active" data-filter="all">All</button>
+            <button class="gallery-filter-btn" data-filter="web">Web Development</button>
+            <button class="gallery-filter-btn" data-filter="app">App Development</button>
+            <button class="gallery-filter-btn" data-filter="design">UI/UX Design</button>
+            <button class="gallery-filter-btn" data-filter="it">IT Infrastructure</button>
+            <button class="gallery-filter-btn" data-filter="personal">Personal</button>
+        </div>
+        
+        <!-- Gallery Container -->
+        <div class="gallery-container" id="gallery-container">
+            <!-- Gallery items will be loaded dynamically via JavaScript -->
+        </div>
+        
+        <!-- Gallery Lightbox -->
+        <div class="gallery-lightbox" id="gallery-lightbox">
+            <div class="lightbox-content">
+                <img src="" alt="Gallery Image" class="lightbox-image" id="lightbox-image">
+                <div class="lightbox-caption" id="lightbox-caption"></div>
+                <div class="lightbox-close" id="lightbox-close">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="lightbox-nav">
+                    <div class="lightbox-nav-btn lightbox-prev" id="lightbox-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="lightbox-nav-btn lightbox-next" id="lightbox-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Media Section -->
+<section id="media" class="section media-section">
+    <div class="container">
+        <h2 class="section-title">Media Showcase</h2>
+        
+        <div class="media-container">
+            <!-- Video Showcase -->
+            <div class="video-showcase glass-card">
+                <h3 class="section-subtitle">Project Demo Videos</h3>
+                <div class="video-container" id="video-container">
+                    <!-- Video will be loaded when play button is clicked -->
+                </div>
+                <div class="video-overlay" id="video-overlay">
+                    <div class="video-play-btn">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Audio Showcase -->
+            <div class="audio-showcase glass-card">
+                <h3 class="audio-title">MusicPad Compositions</h3>
+                <audio controls class="audio-player" id="audio-player">
+                    <source src="#" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                
+                <div class="audio-tracks" id="audio-tracks">
+                    <div class="audio-track" data-file="#">
+                        <div class="audio-track-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="audio-track-info">
+                            <h4 class="audio-track-title">MusicPad Demo Track 1</h4>
+                            <span class="audio-track-duration">2:45</span>
+                        </div>
+                    </div>
+                    
+                    <div class="audio-track" data-file="#">
+                        <div class="audio-track-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="audio-track-info">
+                            <h4 class="audio-track-title">MusicPad Demo Track 2</h4>
+                            <span class="audio-track-duration">3:12</span>
+                        </div>
+                    </div>
+                    
+                    <div class="audio-track" data-file="#">
+                        <div class="audio-track-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="audio-track-info">
+                            <h4 class="audio-track-title">MusicPad Demo Track 3</h4>
+                            <span class="audio-track-duration">1:58</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3D Model Showcase -->
+            <div class="model-showcase glass-card">
+                <h3 class="model-title">Interactive 3D Models</h3>
+                <div class="model-container" id="model-container">
+                    <!-- 3D model will be rendered here -->
+                </div>
+                <div class="model-controls">
+                    <div class="model-control-btn" id="model-rotate">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="model-control-btn" id="model-zoom-in">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                    <div class="model-control-btn" id="model-zoom-out">
+                        <i class="fas fa-search-minus"></i>
+                    </div>
+                    <div class="model-control-btn" id="model-reset">
+                        <i class="fas fa-home"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

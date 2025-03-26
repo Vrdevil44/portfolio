@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibhu Dikshit - Interactive Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/github.css">
+    <link rel="stylesheet" href="css/gallery.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="loader"></div>
+        <p>Building Experience...</p>
+    </div>
+
+    <nav class="main-nav">
+        <div class="logo">VD</div>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#github">GitHub</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section">
+        <div id="three-container"></div>
+        <div class="hero-content">
+            <h1>Vibhu Dikshit</h1>
+            <h2>Full-stack Developer | UI/UX Designer | Technical Support Specialist</h2>
+            <p>Transforming ideas into interactive experiences</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn primary-btn">View Projects</a>
+                <a href="#contact" class="btn secondary-btn">Contact Me</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <p>Scroll to explore</p>
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Include all sections from sections.html -->
+    <!-- About Section -->
+<section id="about" class="section about-section">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="profile-image-container">
+                <div class="profile-image">
+                    <img src="images/profile.png" alt="Vibhu Dikshit">
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/vibhudikshit" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:vrdikshit44@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="about-text glass-card">
+                <p class="intro-text">I'm a <span class="highlight">Computer Information Systems</span> undergraduate with a passion for creating seamless digital experiences through full-stack development, UI/UX design, and technical support.</p>
+                <p>With a strong foundation in programming and a keen eye for design, I bridge the gap between technical functionality and user-centered design. My journey spans web development, IT infrastructure, and software engineering, allowing me to approach problems from multiple perspectives.</p>
+                <p>When I'm not coding, you might find me playing table tennis at a national level, exploring astrophotography, or diving into the latest tech innovations.</p>
+                <div class="key-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Abbotsford, British Columbia</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>University of the Fraser Valley</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Open to Opportunities</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section skills-section">
+    <div class="container">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-container">
+            <div class="skill-category glass-card">
+                <h3>Languages</h3>
+                <ul class="skill-list">
+                    <li><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-level" style="width: 90%"></div></div></li>
+                    <li><span class="skill-name">Java</span><div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div></li>
+                    <li><span class="skill-name">JavaScript</span><div class="skill-bar"><div class="skill-level" style="width: 90%"></div></div></li>
+                    <li><span class="skill-name">C/C++</span><div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div></li>
+                    <li><span class="skill-name">SQL</span><div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div></li>
+                    <li><span class="skill-name">HTML/CSS</span><div class="skill-bar"><div class="skill-level" style="width: 95%"></div></div></li>
+                    <li><span class="skill-name">PHP</span><div class="skill-bar"><div class="skill-level" style="width: 75%"></div></div></li>
+                </ul>
+            </div>
+            <div class="skill-category glass-card">
+                <h3>Frameworks</h3>
+                <ul class="skill-list">
+                    <li><span class="skill-name">React.js</span><div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div></li>
+                    <li><span class="skill-name">Angular.js</span><div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div></li>
+                    <li><span class="skill-name">Three.js</span><div class="skill-bar"><div class="skill-level" style="width: 75%"></div></div></li>
+                    <li><span class="skill-name">TensorFlow</span><div class="skill-bar"><div class="skill-level" style="width: 70%"></div></div></li>
+                    <li><span class="skill-name">Flutter/Dart</span><div class="skill-bar"><div class="skill-level" style="width: 75%"></div></div></li>
+                    <li><span class="skill-name">Entity Framework</span><div class="skill-bar"><div class="skill-level" style="width: 70%"></div></div></li>
+                </ul>
+            </div>
+            <div class="skill-category glass-card">
+                <h3>Tools & Platforms</h3>
+                <ul class="skill-list">
+                    <li><span class="skill-name">Git</span><div class="skill-bar"><div class="skill-level" style="width: 90%"></div></div></li>
+                    <li><span class="skill-name">Azure</span><div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div></li>
+                    <li><span class="skill-name">AWS</span><div class="skill-bar"><div class="skill-level" style="width: 75%"></div></div></li>
+                    <li><span class="skill-name">WordPress</span><div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div></li>
+                    <li><span class="skill-name">Docker</span><div class="skill-bar"><div class="skill-level" style="width: 70%"></div></div></li>
+                    <li><span class="skill-name">Linux/Unix</span><div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div></li>
+                </ul>
+            </div>
+            <div class="skill-category glass-card">
+                <h3>Design & Media</h3>
+                <ul class="skill-list">
+                    <li><span class="skill-name">UI/UX Design</span><div class="skill-bar"><div class="skill-level" style="width: 90%"></div></div></li>
+                    <li><span class="skill-name">Photoshop</span><div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div></li>
+                    <li><span class="skill-name">Illustrator</span><div class="skill-bar"><div class="skill-level" style="width: 75%"></div></div></li>
+                    <li><span class="skill-name">CorelDraw</span><div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div></li>
+                    <li><span class="skill-name">Canva</span><div class="skill-bar"><div class="skill-level" style="width: 95%"></div></div></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Timeline Section -->
+<section id="experience" class="section experience-section">
+    <div class="container">
+        <h2 class="section-title">Professional Journey</h2>
+        <div class="timeline">
+            <!-- Current Position -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">
+                    <span>Feb 2025 - Present</span>
+                </div>
+                <div class="timeline-content glass-card">
+                    <h3>IT Helpdesk Intern</h3>
+                    <h4>Archway Community Services – Abbotsford, BC</h4>
+                    <ul class="experience-details">
+                        <li>Provide first-level technical support for hardware, software, and network issues across various departments, ensuring minimal downtime and smooth daily operations.</li>
+                        <li>Assist in the setup and configuration of workstations, laptops, and peripheral devices for new employees and community programs.</li>
+                        <li>Manage ticketing system entries, tracking user issues and resolutions, escalating complex problems to senior technicians when necessary.</li>
+                        <li>Perform routine maintenance and updates on systems, applications, and security software to ensure compliance and performance.</li>
+                        <li>Support user account management through Active Directory, resetting passwords, configuring permissions, and onboarding new users.</li>
+                    </ul>
+                    <div class="technologies">
+                        <span>Active Directory</span>
+                        <span>Ticketing Systems</span>
+                        <span>Hardware Support</span>
+                        <span>Network Troubleshooting</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Technical Solutions Specialist -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">
+                    <span>Mar 2024 - Mar 2025</span>
+                </div>
+                <div class="timeline-content glass-card">
+                    <h3>Technical Solutions Specialist</h3>
+                    <h4>Arini Data Services Ltd – Abbotsford, BC</h4>
+                    <ul class="experience-details">
+                        <li>Delivered on-site IT infrastructure support and software development solutions across multiple high-profile clients including Tesla, JD Sports, Speedhaul Trucking Company, and Abbey Cedar Products across British Columbia.</li>
+                        <li>Developed and maintained websites and internal tools with full-stack capabilities, ensuring optimal performance, responsive UI, and secure backend integration.</li>
+                        <li>Led network cable installations, terminations, and testing in enterprise environments, following low-voltage best practices and achieving consistent cable certification standards.</li>
+                        <li>Supported network rack builds, patch panel organization, and network drop labeling—contributing to reliable and scalable client IT infrastructure.</li>
+                        <li>Provided direct technical support to clients, configuring workstations and servers, resolving software/hardware issues, and ensuring stable network connectivity.</li>
+                    </ul>
+                    <div class="technologies">
+                        <span>Full-stack Development</span>
+                        <span>Network Infrastructure</span>
+                        <span>Technical Support</span>
+                        <span>Client Communication</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interim Chief Operating Officer -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">
+                    <span>Apr 2023 - Jun 2023</span>
+                </div>
+                <div class="timeline-content glass-card">
+                    <h3>Interim Chief Operating Officer</h3>
+                    <h4>Coli Spaces – Chandigarh, India</h4>
+                    <ul class="experience-details">
+                        <li>Initiated business development strategies, securing the first 50+ customer engagements within three months and contributing to Coli Spaces' foothold in the competitive Chandigarh tricity area.</li>
+                        <li>Developed and executed digital marketing campaigns, resulting in over 10,000 website visits and a notable 25% customer conversion rate.</li>
+                        <li>Launched an app through leadership in the IT department, achieving over 1,000 downloads in the first month, and boosted website user engagement by 30%.</li>
+                        <li>Implemented a CRM system, handling 150+ client interactions monthly, and established three pivotal partnerships in the Chandigarh tricity, enhancing operational capabilities by 20%.</li>
+                        <li>Successfully conducted media outreach, leading to Coli Spaces being featured in three local publications, driving a 15% surge in inquiries in just two months.</li>
+                    </ul>
+                    <div class="technologies">
+                        <span>Business Development</span>
+                        <span>Digital Marketing</span>
+                        <span>App Development</span>
+                        <span>CRM Implementation</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Web Developer at Raj Speed Honda -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">
+                    <span>Sep 2019 - Mar 2020</span>
+                </div>
+                <div class="timeline-content glass-card">
+                    <h3>Web Developer</h3>
+                    <h4>Raj Speed Honda – Etawah, India</h4>
+                    <ul class="experience-details">
+                        <li>Solely responsible for end-to-end web development, including UI/UX design, SEO and increased brand visibility.</li>
+                        <li>Managed social media platforms and event coordination, driving customer engagement and lead generation.</li>
+                        <li>Leveraged HTML5 and CSS skills to deliver a responsive, user-centric website aligned with brand guidelines.</li>
+                        <li>Built a responsive website, enhancing UX and contributing to a 40% rise in turnover with user-centric design.</li>
+                        <li>Maintained a 4.8 Google rating, demonstrating exceptional customer service and market adaptability.</li>
+                    </ul>
+                    <div class="technologies">
+                        <span>HTML5/CSS3</span>
+                        <span>UI/UX Design</span>
+                        <span>SEO</span>
+                        <span>Social Media Management</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Web Developer at Asia Jaunt -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">
+                    <span>Jun 2019 - Aug 2019</span>
+                </div>
+                <div class="timeline-content glass-card">
+                    <h3>Freelance Web Developer</h3>
+                    <h4>Asia Jaunt – Noida, India</h4>
+                    <ul class="experience-details">
+                        <li>Engineered a comprehensive website with seamless social media integration, enhancing customer interaction.</li>
+                        <li>Created a robust SEO strategy that elevated website ranking, driving organic traffic, increasing conversion rates.</li>
+                        <li>Established brand identity through logo design and content creation, fortifying brand positioning in the market.</li>
+                        <li>Developed content writing and SEO analytics skills while working in a hybrid environment.</li>
+                    </ul>
+                    <div class="technologies">
+                        <span>Web Development</span>
+                        <span>Content Writing</span>
+                        <span>SEO</span>
+                        <span>Analytics</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Customer Support Executive at PayTm -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">
+                    <span>Apr 2019 - Jun 2019</span>
+                </div>
+                <div class="timeline-content glass-card">
+                    <h3>Customer Support Executive</h3>
+                    <h4>PayTm (Outsourced by Tech Vision Info Solutions) – Delhi, India</h4>
+                    <ul class="experience-details">
+                        <li>Managed customer inquiries and resolution as a part of outsourced team, ensuring high satisfaction rates.</li>
+                        <li>Employed analytical and problem-solving skills to handle customer issues efficiently.</li>
+                        <li>Contributed to team initiatives in web design and development, utilizing skills in HTML and CSS.</li>
+                        <li>Created digital banners for festivals, expanding reach by 10%.</li>
+                    </ul>
+                    <div class="technologies">
+                        <span>Customer Service</span>
+                        <span>Problem Solving</span>
+                        <span>HTML/CSS</span>
+                        <span>Digital Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section id="education" class="section education-section">
+    <div class="container">
+        <h2 class="section-title">Education</h2>
+        <div class="education-container">
+            <div class="education-item glass-card">
+                <div class="education-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="education-details">
+                    <h3>Bachelor of Computer Information Systems</h3>
+                    <h4>University of the Fraser Valley</h4>
+                    <p class="education-date">Expected 2025</p>
+                    <p class="education-gpa">GPA: 3.46/4.33</p>
+                    <div class="education-highlights">
+                        <p><strong>Achievements:</strong> Dean's List (Winter 2022, Fall 2021), Runner up Hackathon 3.0</p>
+                        <p><strong>Key Courses:</strong></p>
+                        <ul class="course-list">
+                            <li>COMP 150: Introduction to Programming (A)</li>
+                            <li>COMP 370: Software Engineering (A)</li>
+                            <li>COMP 340: Operating Systems (A-)</li>
+                            <li>COMP 230: Databases & Management Systems (B+)</li>
+                            <li>CIS 221: Principles of Information Systems Security (A-)</li>
+                            <li>CIS 285: End User Training and Support (A-)</li>
+                            <li>COMP 251: Data Structures & Algorithms (B-)</li>
+                            <li>CMNS 125: Professional Communications (A-)</li>
+                            <li>CIS 245: Intermediate Web Programming (B)</li>
+                            <li>CIS 270: Analysis and Design (B+)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section projects-section">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        
+        <!-- Project Filters -->
+        <div class="project-filters">
+            <button class="project-filter-btn active" data-filter="all">All Projects</button>
+            <button class="project-filter-btn" data-filter="web">Web Development</button>
+            <button class="project-filter-btn" data-filter="app">App Development</button>
+            <button class="project-filter-btn" data-filter="ui">UI/UX Design</button>
+            <button class="project-filter-btn" data-filter="research">Research</button>
+        </div>
+        
+        <div class="projects-container">
+            <!-- MusicPad Project (Featured) -->
+            <div class="project-card glass-card featured" data-category="web,ui">
+                <div class="project-overlay"></div>
+                <div class="project-image">
+                    <img src="https://via.placeholder.com/600x300/2D3250/FFFFFF?text=MusicPad" alt="MusicPad Project">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">MusicPad</h3>
+                    <p class="project-description">A collaborative web-based platform enabling users to create, share, and discover original music. Features include real-time audio processing, customizable composition tools, and seamless export functionality.</p>
+                    <div class="project-tech">
+                        <span>JavaScript</span>
+                        <span>jQuery</span>
+                        <span>HTML/CSS</span>
+                        <span>Web Audio API</span>
+                        <span>Git</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="view-project" data-project="musicpad"><i class="fas fa-eye"></i> View Details</a>
+                        <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Billing Management System -->
+            <div class="project-card glass-card" data-category="web,app">
+                <div class="project-overlay"></div>
+                <div class="project-image">
+                    <img src="https://via.placeholder.com/600x300/424769/FFFFFF?text=Billing+System" alt="Billing Management System">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Billing Management System</h3>
+                    <p class="project-description">A comprehensive billing solution with Next.js and React.js, featuring dynamic search, intelligent sorting, responsive layouts, and business analytics.</p>
+                    <div class="project-tech">
+                        <span>Next.js</span>
+                        <span>React.js</span>
+                        <span>RESTful API</span>
+                        <span>Git</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="view-project" data-project="billing"><i class="fas fa-eye"></i> View Details</a>
+                        <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Companion Robots -->
+            <div class="project-card glass-card" data-category="research,app">
+                <div class="project-overlay"></div>
+                <div class="project-image">
+                    <img src="https://via.placeholder.com/600x300/2D5BFF/FFFFFF?text=Social+Companion+Robots" alt="Social Companion Robots">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Social Companion Robots</h3>
+                    <p class="project-description">Research project focused on implementing and testing MiRo-E robots, using machine learning techniques including the BERT model for emotion recognition.</p>
+                    <div class="project-tech">
+                        <span>TensorFlow</span>
+                        <span>BERT</span>
+                        <span>Raspberry Pi</span>
+                        <span>IoT</span>
+                        <span>Python</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="view-project" data-project="robots"><i class="fas fa-eye"></i> View Details</a>
+                        <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Raj Speed Honda Website -->
+            <div class="project-card glass-card" data-category="web,ui">
+                <div class="project-overlay"></div>
+                <div class="project-image">
+                    <img src="https://via.placeholder.com/600x300/7B68EE/FFFFFF?text=Raj+Speed+Honda" alt="Raj Speed Honda Website">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Raj Speed Honda Website</h3>
+                    <p class="project-description">End-to-end web development project including UI/UX design, SEO optimization, and responsive implementation that contributed to a 40% rise in turnover.</p>
+                    <div class="project-tech">
+                        <span>HTML5</span>
+                        <span>CSS3</span>
+                        <span>JavaScript</span>
+                        <span>SEO</span>
+                        <span>Responsive Design</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="view-project" data-project="rajspeed"><i class="fas fa-eye"></i> View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Coli Spaces App -->
+            <div class="project-card glass-card" data-category="app,ui">
+                <div class="project-overlay"></div>
+                <div class="project-image">
+                    <img src="https://via.placeholder.com/600x300/2D3250/FFFFFF?text=Coli+Spaces+App" alt="Coli Spaces App">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Coli Spaces Mobile App</h3>
+                    <p class="project-description">Led the development of a mobile application that garnered over 1,000 downloads in the first month, boosting user engagement by 30%.</p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Dart</span>
+                        <span>Firebase</span>
+                        <span>UI/UX Design</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="view-project" data-project="colispaces"><i class="fas fa-eye"></i> View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paragon PMO Quiz App -->
+            <div class="project-card glass-card" data-category="app">
+                <div class="project-overlay"></div>
+                <div class="project-image">
+                    <img src="https://via.placeholder.com/600x300/424769/FFFFFF?text=Paragon+Quiz+App" alt="Paragon Quiz App">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Paragon Quiz Application</h3>
+                    <p class="project-description">Volunteer project featuring an intuitive quiz interface using Java/Kotlin, with Firebase integration for dynamic content management.</p>
+                    <div class="project-tech">
+                        <span>Java</span>
+                        <span>Kotlin</span>
+                        <span>Firebase</span>
+                        <span>Android Studio</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="view-project" data-project="paragon"><i class="fas fa-eye"></i> View Details</a>
+                        <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Modal Templates -->
+<div class="project-modal" id="modal-musicpad">
+    <div class="project-modal-content glass-card">
+        <div class="project-modal-close"><i class="fas fa-times"></i></div>
+        <div class="project-modal-header">
+            <h2 class="project-modal-title">MusicPad</h2>
+            <p class="project-modal-subtitle">Web-based Music Composition Platform</p>
+        </div>
+        <div class="project-modal-image">
+            <img src="https://via.placeholder.com/1200x600/2D3250/FFFFFF?text=MusicPad+Detailed+View" alt="MusicPad Project">
+        </div>
+        <div class="project-modal-details">
+            <div class="project-modal-description">
+                <p>MusicPad is a collaborative web-based platform that enables users to create, share, and discover original music. Developed in association with the University of the Fraser Valley, this project showcases my skills in web development and audio processing.</p>
+                <p>The application features real-time audio processing with JavaScript and jQuery, allowing for seamless playback and high-quality sound. Users can create compositions by linking .wav files to keyboard inputs, creating an interactive music creation experience.</p>
+                <p>Key features include robust exporting capabilities that allow users to share their musical creations across multiple platforms and in various formats, as well as a customizable music planning tool offering users the flexibility to tailor their compositions to specific needs.</p>
+            </div>
+            <div class="project-modal-info">
+                <h4>Technologies Used</h4>
+                <div class="project-modal-tech">
+                    <span>JavaScript</span>
+                    <span>jQuery</span>
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>Web Audio API</span>
+                    <span>Git</span>
+                </div>
+                <h4>My Role</h4>
+                <p>Lead Developer responsible for architecture, implementation, and testing.</p>
+            </div>
+            <div class="project-modal-info">
+                <h4>Project Timeline</h4>
+                <p>March 2023 - Present</p>
+                <h4>Challenges & Solutions</h4>
+                <p>One of the main challenges was implementing real-time audio processing with minimal latency. This was solved by optimizing the JavaScript code and implementing efficient audio buffer management.</p>
+            </div>
+        </div>
+        <div class="project-modal-links">
+            <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i> View on GitHub</a>
+            <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+        </div>
+    </div>
+</div>
+
+<div class="project-modal" id="modal-billing">
+    <div class="project-modal-content glass-card">
+        <div class="project-modal-close"><i class="fas fa-times"></i></div>
+        <div class="project-modal-header">
+            <h2 class="project-modal-title">Billing Management System</h2>
+            <p class="project-modal-subtitle">Next.js & React.js Web Application</p>
+        </div>
+        <div class="project-modal-image">
+            <img src="https://via.placeholder.com/1200x600/424769/FFFFFF?text=Billing+System+Detailed+View" alt="Billing Management System">
+        </div>
+        <div class="project-modal-details">
+            <div class="project-modal-description">
+                <p>The Billing Management System is a comprehensive solution built with Next.js and React.js, focusing on smart design and a scalable backend. This project demonstrates my ability to create complex web applications with modern frameworks.</p>
+                <p>The system features dynamic search functionality, intelligent sorting algorithms, and responsive layouts that enhance user experience and adaptability across devices. I implemented RESTful APIs for CRUD operations, smart notifications, customizable invoice templates, and business analytics tools.</p>
+                <p>Version control was managed through Git, ensuring collaborative development and consistent code quality throughout the project lifecycle.</p>
+            </div>
+            <div class="project-modal-info">
+                <h4>Technologies Used</h4>
+                <div class="project-modal-tech">
+                    <span>Next.js</span>
+                    <span>React.js</span>
+                    <span>RESTful API</span>
+                    <span>Git</span>
+                    <span>Responsive Design</span>
+                </div>
+                <h4>My Role</h4>
+                <p>Lead Developer responsible for architecture, frontend and backend implementation.</p>
+            </div>
+            <div class="project-modal-info">
+                <h4>Project Timeline</h4>
+                <p>November 2023 - Present</p>
+                <h4>Challenges & Solutions</h4>
+                <p>Creating a system that was both powerful and user-friendly required careful UI/UX planning. I implemented a modular design approach that allowed for complex functionality while maintaining an intuitive user interface.</p>
+            </div>
+        </div>
+        <div class="project-modal-links">
+            <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i> View on GitHub</a>
+        </div>
+    </div>
+</div>
+
+<!-- Additional modals for other projects would be added here -->
+
+<!-- GitHub Section Placeholder -->
+<section id="github" class="section github-section">
+    <div class="container">
+        <h2 class="section-title">GitHub Activity</h2>
+        <div class="github-container glass-card">
+            <!-- GitHub integration will be added in a later step -->
+            <p class="coming-soon">GitHub integration coming soon...</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section contact-section">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info glass-card">
+                <h3>Contact Information</h3>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>vrdikshit44@gmail.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+1 (236) 380 5996</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Abbotsford, British Columbia</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <p><a href="https://www.linkedin.com/in/vibhudikshit" target="_blank">linkedin.com/in/vibhudikshit</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <p><a href="https://github.com/Vrdevil44" target="_blank">github.com/Vrdevil44</a></p>
+                    </div>
+                </div>
+                <div class="availability">
+                    <h4>Current Status</h4>
+                    <p class="status-indicator available">Available for Opportunities</p>
+                </div>
+            </div>
+            <div class="contact-form glass-card">
+                <h3>Send Me a Message</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>Vibhu Dikshit</h3>
+                <p>Full-stack Developer | UI/UX Designer | Technical Support Specialist</p>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <a href="https://github.com/Vrdevil44" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/vibhudikshit" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:vrdikshit44@gmail.com"><i class="fas fa-envelope"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Vibhu Dikshit. All Rights Reserved.</p>
+            <a href="#home" class="back-to-top">
+                <i class="fas fa-arrow-up"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+    <script src="js/projects.js"></script>
+    <script src="js/github.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/responsive.js"></script>
+</body>
+</html>

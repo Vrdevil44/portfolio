@@ -11,18 +11,51 @@
     <link rel="stylesheet" href="css/github.css">
     <link rel="stylesheet" href="css/gallery.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Fira+Code&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@0.9.490/build/spline-viewer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.12.0/tsparticles.slim.bundle.min.js"></script>
+    <!-- Three.js and Vanta.js Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.trunk.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.topology.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.dots.min.js"></script>
 </head>
 <body>
-    <div class="loading-screen">
-        <div class="loader"></div>
-        <p>Building Experience...</p>
+    <div id="particles-js"></div>
+    <div class="intro-screen">
+        <div class="intro-logo">
+            <div class="intro-letter-v">V</div>
+            <div class="intro-letter-d">D</div>
+        </div>
+        <div class="intro-text">Welcome to my world</div>
+        <div class="loading-progress-container">
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+                <div class="progress-glow"></div>
+            </div>
+            <div class="progress-text">0%</div>
+        </div>
     </div>
 
     <nav class="main-nav">
-        <div class="logo">VD</div>
+        <div class="nav-logo">
+            <div class="logo-text">
+                <span class="logo-letter">V</span>
+                <span class="logo-letter">D</span>
+            </div>
+        </div>
         <ul class="nav-links">
             <li><a href="#home" class="active">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -39,19 +72,29 @@
         </div>
     </nav>
 
-    <section id="home" class="hero-section">
-        <div id="three-container"></div>
+    <div id="vanta-background"></div>
+    
+    <section class="hero-section" id="home">
         <div class="hero-content">
-            <h1>Vibhu Dikshit</h1>
-            <h2>Full-stack Developer | UI/UX Designer | Technical Support Specialist</h2>
-            <p>Transforming ideas into interactive experiences</p>
+            <div class="role-labels">
+                <div class="role-tag" data-tooltip="🚀 Building scalable web applications with modern tech stack">
+                    Full-stack Developer
+                </div>
+                <div class="role-tag" data-tooltip="🎨 Creating beautiful, intuitive user experiences">
+                    UI/UX Designer
+                </div>
+                <div class="role-tag" data-tooltip="🛠️ Solving technical challenges with expertise">
+                    Technical Support Specialist
+                </div>
+            </div>
+            <p class="tagline">Transforming ideas into interactive experiences</p>
             <div class="cta-buttons">
                 <a href="#projects" class="btn primary-btn">View Projects</a>
                 <a href="#contact" class="btn secondary-btn">Contact Me</a>
             </div>
         </div>
         <div class="scroll-indicator">
-            <p>Scroll to explore</p>
+            <p>Scroll Down</p>
             <div class="mouse">
                 <div class="wheel"></div>
             </div>
@@ -361,7 +404,7 @@
             <div class="project-card glass-card featured" data-category="web,ui">
                 <div class="project-overlay"></div>
                 <div class="project-image">
-                    <img src="https://via.placeholder.com/600x300/2D3250/FFFFFF?text=MusicPad" alt="MusicPad Project">
+                    <img src="images/projects/musicpad.jpg" alt="MusicPad Project">
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">MusicPad</h3>
@@ -384,7 +427,7 @@
             <div class="project-card glass-card" data-category="web,app">
                 <div class="project-overlay"></div>
                 <div class="project-image">
-                    <img src="https://via.placeholder.com/600x300/424769/FFFFFF?text=Billing+System" alt="Billing Management System">
+                    <img src="images/projects/billing.jpg" alt="Billing Management System">
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Billing Management System</h3>
@@ -406,7 +449,7 @@
             <div class="project-card glass-card" data-category="research,app">
                 <div class="project-overlay"></div>
                 <div class="project-image">
-                    <img src="https://via.placeholder.com/600x300/2D5BFF/FFFFFF?text=Social+Companion+Robots" alt="Social Companion Robots">
+                    <img src="images/projects/robots.jpg" alt="Social Companion Robots">
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Social Companion Robots</h3>
@@ -429,7 +472,7 @@
             <div class="project-card glass-card" data-category="web,ui">
                 <div class="project-overlay"></div>
                 <div class="project-image">
-                    <img src="https://via.placeholder.com/600x300/7B68EE/FFFFFF?text=Raj+Speed+Honda" alt="Raj Speed Honda Website">
+                    <img src="images/projects/rajspeed.jpg" alt="Raj Speed Honda Website">
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Raj Speed Honda Website</h3>
@@ -451,7 +494,7 @@
             <div class="project-card glass-card" data-category="app,ui">
                 <div class="project-overlay"></div>
                 <div class="project-image">
-                    <img src="https://via.placeholder.com/600x300/2D3250/FFFFFF?text=Coli+Spaces+App" alt="Coli Spaces App">
+                    <img src="images/projects/colispaces.jpg" alt="Coli Spaces App">
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Coli Spaces Mobile App</h3>
@@ -472,7 +515,7 @@
             <div class="project-card glass-card" data-category="app">
                 <div class="project-overlay"></div>
                 <div class="project-image">
-                    <img src="https://via.placeholder.com/600x300/424769/FFFFFF?text=Paragon+Quiz+App" alt="Paragon Quiz App">
+                    <img src="images/projects/paragon.jpg" alt="Paragon Quiz App">
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Paragon Quiz Application</h3>
@@ -502,7 +545,7 @@
             <p class="project-modal-subtitle">Web-based Music Composition Platform</p>
         </div>
         <div class="project-modal-image">
-            <img src="https://via.placeholder.com/1200x600/2D3250/FFFFFF?text=MusicPad+Detailed+View" alt="MusicPad Project">
+            <img src="images\particle.png" alt="MusicPad Project">
         </div>
         <div class="project-modal-details">
             <div class="project-modal-description">
@@ -545,7 +588,7 @@
             <p class="project-modal-subtitle">Next.js & React.js Web Application</p>
         </div>
         <div class="project-modal-image">
-            <img src="https://via.placeholder.com/1200x600/424769/FFFFFF?text=Billing+System+Detailed+View" alt="Billing Management System">
+            <img src="images\particle.png" alt="Billing Management System">
         </div>
         <div class="project-modal-details">
             <div class="project-modal-description">
@@ -580,13 +623,49 @@
 
 <!-- Additional modals for other projects would be added here -->
 
-<!-- GitHub Section Placeholder -->
+<!-- GitHub Activity Section -->
 <section id="github" class="section github-section">
     <div class="container">
         <h2 class="section-title">GitHub Activity</h2>
         <div class="github-container glass-card">
-            <!-- GitHub integration will be added in a later step -->
-            <p class="coming-soon">GitHub integration coming soon...</p>
+            <!-- GitHub Profile -->
+            <div class="github-profile">
+                <img id="github-avatar-img" src="images/profile.png" alt="GitHub Avatar" class="github-avatar">
+                <div class="github-profile-info">
+                    <h3 id="github-username">Loading...</h3>
+                    <p id="github-bio">Loading...</p>
+                    <div class="github-stats">
+                        <span><i class="fas fa-code-branch"></i> <span id="github-repos-count">-</span> repos</span>
+                        <span><i class="fas fa-users"></i> <span id="github-followers">-</span> followers</span>
+                        <span><i class="fas fa-user-plus"></i> <span id="github-following">-</span> following</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitHub Repositories -->
+            <div class="github-repos-container">
+                <h3>Popular Repositories</h3>
+                <div id="github-repos" class="github-repos">
+                    <div class="loading">Loading repositories...</div>
+                </div>
+            </div>
+
+            <!-- GitHub Contributions -->
+            <div class="github-contributions-container">
+                <h3>Contribution Activity</h3>
+                <div id="github-contributions-graph" class="github-contributions-graph">
+                    <div class="loading">Loading contributions...</div>
+                </div>
+                <div id="github-contribution-tooltip" class="github-contribution-tooltip"></div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="github-activity-container">
+                <h3>Recent Activity</h3>
+                <div id="github-recent-activity" class="github-recent-activity">
+                    <div class="loading">Loading activity...</div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -685,15 +764,14 @@
     </div>
 </footer>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+    <script src="js/vanta-config.js"></script>
     <script src="js/main.js"></script>
     <script src="js/projects.js"></script>
     <script src="js/github.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/responsive.js"></script>
+    <script src="js/particles-config.js"></script>
 </body>
 </html>

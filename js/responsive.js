@@ -155,3 +155,22 @@ function isInViewport(element) {
         rect.bottom >= 0
     );
 }
+
+// Add debounce utility
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+// Optimize resize handler
+window.addEventListener('resize', debounce(() => {
+    loadResponsiveImages();
+    adjustCanvasSize();
+}, 200));

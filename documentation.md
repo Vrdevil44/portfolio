@@ -307,3 +307,20 @@ It's recommended to maintain a backup of your portfolio files:
 This portfolio website has been designed to showcase your skills, experience, and projects in an interactive and visually appealing way. The modular structure makes it easy to update as your career progresses.
 
 Remember to keep your portfolio updated with your latest work and achievements to make the best impression on potential employers or clients.
+
+## Architecture
+- Core: Main application logic and initialization
+- Models: 3D model management and interactions
+- Particles: Background particle systems
+- Utils: Shared utilities and helpers
+
+## Performance Considerations
+- Debounced window resize events
+- Optimized Three.js rendering
+- Lazy loading for models and textures
+- Memory management for particle systems
+
+## Development Workflow
+1. Development in `src/`
+2. Build process for optimization
+3. Production files in `dist/`

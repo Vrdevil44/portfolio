@@ -1,363 +1,324 @@
 // Enhanced JavaScript for interactive elements and animations
 
 // Global variables
-let scene, camera, renderer, controls;
-let particles, particleSystem;
-let mixer, clock;
-let model;
-let isLoaded = false;
 let isAnimating = false;
-let scrollPosition = 0;
+let vantaEffect = null;
+let gui = null;
+let guiContainer = null;
 
-// Initialize Three.js scene
-function init() {
-    // Create scene
-    scene = new THREE.Scene();
-    
-    // Create camera
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
-    
-    // Create renderer
-    renderer = new THREE.WebGLRenderer({ 
-        antialias: true,
-        alpha: true 
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    document.getElementById('three-container').appendChild(renderer.domElement);
-    
-    // Add lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(1, 1, 1);
-    scene.add(directionalLight);
-    
-    // Add point lights for dramatic effect
-    const pointLight1 = new THREE.PointLight(0x2D5BFF, 1, 10);
-    pointLight1.position.set(2, 1, 3);
-    scene.add(pointLight1);
-    
-    const pointLight2 = new THREE.PointLight(0x7B68EE, 1, 10);
-    pointLight2.position.set(-2, -1, 3);
-    scene.add(pointLight2);
-    
-    // Add orbit controls
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.enableZoom = false;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
-    
-    // Initialize clock for animations
-    clock = new THREE.Clock();
-    
-    // Create particles
-    createParticles();
-    
-    // Create placeholder geometry (will be replaced with loaded model)
-    createPlaceholderGeometry();
-    
-    // Handle window resize
-    window.addEventListener('resize', onWindowResize);
-    
-    // Start animation loop
-    animate();
+// Theme management
+const defaultTheme = {
+    primaryAccent: '#2451FF',
+    secondaryAccent: '#7B68EE',
+    textPrimary: '#FFFFFF',
+    textSecondary: '#A0A0A0',
+    backgroundPrimary: '#0A0A0A',
+    backgroundSecondary: '#1A1A1A',
+    glassBackground: 'rgba(10, 10, 10, 0.8)'
+};
+
+function getCurrentTheme() {
+    const savedTheme = localStorage.getItem('portfolioTheme');
+    return savedTheme ? JSON.parse(savedTheme) : defaultTheme;
 }
 
-// Create particle system for background
-function createParticles() {
-    const particleCount = 2000;
-    const particles = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const sizes = new Float32Array(particleCount);
+function applyTheme(theme) {
+    Object.entries(theme).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(
+            `--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`,
+            value
+        );
+    });
+    localStorage.setItem('portfolioTheme', JSON.stringify(theme));
+}
+
+function resetTheme() {
+    applyTheme(defaultTheme);
+    updateGuiDisplay();
+}
+
+// Vanta background configuration
+const VANTA_EFFECTS = [
+    { name: 'WAVES', init: VANTA.WAVES },
+    { name: 'BIRDS', init: VANTA.BIRDS },
+    { name: 'FOG', init: VANTA.FOG },
+    { name: 'CLOUDS', init: VANTA.CLOUDS },
+    { name: 'GLOBE', init: VANTA.GLOBE },
+    { name: 'NET', init: VANTA.NET },
+    { name: 'RINGS', init: VANTA.RINGS },
+    { name: 'CELLS', init: VANTA.CELLS },
+    { name: 'TRUNK', init: VANTA.TRUNK },
+    { name: 'TOPOLOGY', init: VANTA.TOPOLOGY },
+    { name: 'HALO', init: VANTA.HALO },
+    { name: 'DOTS', init: VANTA.DOTS }
+
+];
+
+// Initialize background effect
+function initBackground() {
+    const container = document.getElementById('vanta-background');
+    if (!container) return;
+
+    // Get a random effect every time
+    const randomEffect = VANTA_EFFECTS[Math.floor(Math.random() * VANTA_EFFECTS.length)];
     
-    const color1 = new THREE.Color(0x2D5BFF); // Primary accent
-    const color2 = new THREE.Color(0x7B68EE); // Secondary accent
+    // Get effect configuration
+    const effectConfig = getEffectConfig(randomEffect.name);
+    const effectDefaults = getEffectDefaults(randomEffect.name);
     
-    for (let i = 0; i < particleCount * 3; i += 3) {
-        // Position
-        positions[i] = (Math.random() - 0.5) * 30;
-        positions[i + 1] = (Math.random() - 0.5) * 30;
-        positions[i + 2] = (Math.random() - 0.5) * 30;
+    // Base configuration
+    const config = {
+        el: container,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        ...effectDefaults
+    };
+
+    // Initialize the effect
+    vantaEffect = randomEffect.init(config);
+
+    // Store the effect name for the GUI
+    localStorage.setItem('lastVantaEffect', randomEffect.name);
+
+    // Initialize GUI controls
+    initGuiControls(randomEffect.name);
+}
+
+// Safely destroy GUI
+function destroyGui() {
+    if (gui) {
+        // Remove the container if it exists
+        if (guiContainer && guiContainer.parentNode) {
+            guiContainer.parentNode.removeChild(guiContainer);
+        }
         
-        // Color
-        const mixFactor = Math.random();
-        const particleColor = color1.clone().lerp(color2, mixFactor);
-        
-        colors[i] = particleColor.r;
-        colors[i + 1] = particleColor.g;
-        colors[i + 2] = particleColor.b;
-        
-        // Size
-        sizes[i/3] = Math.random() * 0.1 + 0.03;
+        // Destroy the GUI
+        gui.destroy();
+        gui = null;
     }
     
-    particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-    
-    // Create shader material for better-looking particles
-    const particleMaterial = new THREE.ShaderMaterial({
-        uniforms: {
-            time: { value: 0.0 },
-            pointTexture: { value: new THREE.TextureLoader().load('https://threejs.org/examples/textures/sprites/disc.png') }
-        },
-        vertexShader: `
-            attribute float size;
-            varying vec3 vColor;
-            uniform float time;
-            void main() {
-                vColor = color;
-                vec3 pos = position;
-                // Simple sine wave animation
-                pos.y += sin((pos.x + time) * 0.3) * 0.1;
-                pos.x += sin((pos.y + time) * 0.3) * 0.1;
-                
-                vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-                gl_PointSize = size * (300.0 / -mvPosition.z);
-                gl_Position = projectionMatrix * mvPosition;
-            }
-        `,
-        fragmentShader: `
-            uniform sampler2D pointTexture;
-            varying vec3 vColor;
-            void main() {
-                gl_FragColor = vec4(vColor, 1.0);
-                gl_FragColor = gl_FragColor * texture2D(pointTexture, gl_PointCoord);
-                if (gl_FragColor.a < 0.3) discard;
-            }
-        `,
-        blending: THREE.AdditiveBlending,
-        depthTest: false,
-        transparent: true,
-        vertexColors: true
-    });
-    
-    particleSystem = new THREE.Points(particles, particleMaterial);
-    scene.add(particleSystem);
+    // Remove any existing style elements
+    const oldStyle = document.getElementById('gui-style');
+    if (oldStyle && oldStyle.parentNode) {
+        oldStyle.parentNode.removeChild(oldStyle);
+    }
 }
 
-// Create placeholder geometry until model is loaded
-function createPlaceholderGeometry() {
-    // Create a group of objects representing tech and interests
-    const group = new THREE.Group();
-    
-    // Laptop (representing web dev)
-    const laptopBase = new THREE.BoxGeometry(1.5, 0.1, 1);
-    const laptopScreen = new THREE.BoxGeometry(1.4, 1, 0.1);
-    
-    const laptopMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0x2D3250,
-        specular: 0x555555,
-        shininess: 30 
+// Initialize GUI controls based on effect type
+function initGuiControls(effectName) {
+    // Safely destroy existing GUI
+    destroyGui();
+
+    // Create new GUI
+    gui = new dat.GUI({ autoPlace: false });
+    gui.domElement.id = 'vanta-controls';
+
+    // Create and setup GUI container
+    guiContainer = document.createElement('div');
+    guiContainer.id = 'gui-container';
+    guiContainer.style.position = 'fixed';
+    guiContainer.style.top = '80px';
+    guiContainer.style.right = '10px';
+    guiContainer.style.zIndex = '1000';
+    document.body.appendChild(guiContainer);
+    guiContainer.appendChild(gui.domElement);
+
+    // Theme Settings
+    const themeFolder = gui.addFolder('Theme Settings');
+    const currentTheme = getCurrentTheme();
+    const themeControls = { ...currentTheme, resetTheme };
+
+    // Add theme controls
+    Object.keys(defaultTheme).forEach(prop => {
+        if (prop !== 'resetTheme') {
+            themeFolder.addColor(themeControls, prop)
+                .onChange(value => {
+                    themeControls[prop] = value;
+                    applyTheme(themeControls);
+                    updateGuiStyle();
+                });
+        }
     });
+
+    themeFolder.add(themeControls, 'resetTheme').name('Reset Theme');
+
+    // Effect Settings
+    const effectFolder = gui.addFolder(effectName + ' Settings');
     
-    const screenMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0x2D5BFF,
-        emissive: 0x2D5BFF,
-        emissiveIntensity: 0.2,
-        specular: 0xffffff,
-        shininess: 100 
-    });
+    // Get effect configuration
+    const effectConfig = getEffectConfig(effectName);
     
-    const laptopBaseMesh = new THREE.Mesh(laptopBase, laptopMaterial);
-    const laptopScreenMesh = new THREE.Mesh(laptopScreen, screenMaterial);
-    
-    laptopScreenMesh.position.y = 0.5;
-    laptopScreenMesh.position.z = 0.45;
-    laptopScreenMesh.rotation.x = Math.PI / 6;
-    
-    const laptop = new THREE.Group();
-    laptop.add(laptopBaseMesh);
-    laptop.add(laptopScreenMesh);
-    laptop.position.x = -0.5;
-    laptop.position.y = 0;
-    laptop.scale.set(0.5, 0.5, 0.5);
-    
-    group.add(laptop);
-    
-    // Server rack (representing IT)
-    const serverRack = new THREE.BoxGeometry(0.8, 1, 0.5);
-    const serverMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0x424769,
-        specular: 0x222222,
-        shininess: 20 
-    });
-    
-    const serverMesh = new THREE.Mesh(serverRack, serverMaterial);
-    serverMesh.position.x = 0.8;
-    serverMesh.position.y = 0;
-    serverMesh.scale.set(0.5, 0.5, 0.5);
-    
-    // Add server details
-    for (let i = 0; i < 3; i++) {
-        const serverUnit = new THREE.BoxGeometry(0.7, 0.2, 0.45);
-        const unitMaterial = new THREE.MeshPhongMaterial({ 
-            color: 0x333333,
-            specular: 0x666666,
-            shininess: 30 
+    if (effectConfig) {
+        // Create controls object based on current effect options
+        const effectControls = {};
+        
+        // Add controls for numeric properties with defined ranges
+        Object.entries(effectConfig.ranges).forEach(([key, range]) => {
+            effectControls[key] = vantaEffect.options[key] || effectConfig.defaults[key];
+            effectFolder.add(effectControls, key, ...range).onChange(value => {
+                const options = {};
+                options[key] = value;
+                vantaEffect.setOptions(options);
+            });
         });
         
-        const unitMesh = new THREE.Mesh(serverUnit, unitMaterial);
-        unitMesh.position.y = -0.3 + (i * 0.25);
-        unitMesh.position.x = 0;
-        unitMesh.position.z = 0.01;
-        
-        // Add LED
-        const led = new THREE.SphereGeometry(0.02, 8, 8);
-        const ledMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const ledMesh = new THREE.Mesh(led, ledMaterial);
-        ledMesh.position.set(0.25, 0, 0.23);
-        unitMesh.add(ledMesh);
-        
-        serverMesh.add(unitMesh);
+        // Add controls for colors
+        effectConfig.colors.forEach(colorKey => {
+            const currentColor = vantaEffect.options[colorKey] || effectConfig.defaults[colorKey] || 0x2451FF;
+            effectControls[colorKey] = '#' + currentColor.toString(16).padStart(6, '0');
+            effectFolder.addColor(effectControls, colorKey).onChange(value => {
+                const options = {};
+                options[colorKey] = new THREE.Color(value).getHex();
+                vantaEffect.setOptions(options);
+            });
+        });
     }
-    
-    group.add(serverMesh);
-    
-    // Table tennis paddle
-    const paddleHandle = new THREE.CylinderGeometry(0.03, 0.03, 0.3, 16);
-    const paddleHead = new THREE.CircleGeometry(0.15, 32);
-    
-    const handleMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
-    const headMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-    
-    const handleMesh = new THREE.Mesh(paddleHandle, handleMaterial);
-    const headMesh = new THREE.Mesh(paddleHead, headMaterial);
-    
-    headMesh.position.y = 0.15;
-    headMesh.rotation.x = Math.PI / 2;
-    
-    const paddle = new THREE.Group();
-    paddle.add(handleMesh);
-    paddle.add(headMesh);
-    paddle.position.set(0, -0.5, 0);
-    paddle.rotation.z = Math.PI / 4;
-    paddle.scale.set(0.5, 0.5, 0.5);
-    
-    group.add(paddle);
-    
-    // Network cable (representing IT infrastructure)
-    const cablePath = new THREE.CurvePath();
-    
-    // Create a curved path for the cable
-    const startPoint = new THREE.Vector3(-0.8, -0.3, 0);
-    const endPoint = new THREE.Vector3(0.5, -0.3, 0);
-    const controlPoint1 = new THREE.Vector3(-0.4, -0.5, 0.3);
-    const controlPoint2 = new THREE.Vector3(0.1, -0.5, 0.3);
-    
-    const curve = new THREE.CubicBezierCurve3(
-        startPoint,
-        controlPoint1,
-        controlPoint2,
-        endPoint
-    );
-    
-    cablePath.add(curve);
-    
-    const cableGeometry = new THREE.TubeGeometry(
-        cablePath,
-        64,
-        0.02,
-        8,
-        false
-    );
-    
-    const cableMaterial = new THREE.MeshPhongMaterial({
-        color: 0x00aaff,
-        shininess: 100
-    });
-    
-    const cable = new THREE.Mesh(cableGeometry, cableMaterial);
-    group.add(cable);
-    
-    // Position and add the group to the scene
-    group.position.y = -0.5;
-    group.rotation.y = Math.PI / 6;
-    
-    model = group;
-    scene.add(model);
-    
-    // Add interactive animation for the model
-    document.addEventListener('mousemove', onMouseMove);
+
+    // Effect switcher
+    const switcherControls = {
+        currentEffect: effectName,
+        switchEffect: function() {
+            const currentOptions = vantaEffect.options;
+            if (vantaEffect) {
+                vantaEffect.destroy();
+            }
+            const newEffect = VANTA_EFFECTS.find(e => e.name === this.currentEffect);
+            const newConfig = getEffectConfig(this.currentEffect);
+            
+            // Combine default options with current options
+            const combinedOptions = {
+                ...newConfig.defaults,
+                el: document.getElementById('vanta-background'),
+                mouseControls: currentOptions.mouseControls,
+                touchControls: currentOptions.touchControls,
+                gyroControls: currentOptions.gyroControls,
+                minHeight: currentOptions.minHeight,
+                minWidth: currentOptions.minWidth
+            };
+
+            // Initialize new effect
+            vantaEffect = newEffect.init(combinedOptions);
+            
+            // Store the effect name
+            localStorage.setItem('lastVantaEffect', this.currentEffect);
+            
+            // Reinitialize controls
+            initGuiControls(this.currentEffect);
+        }
+    };
+
+    gui.add(switcherControls, 'currentEffect', VANTA_EFFECTS.map(e => e.name))
+        .onChange(() => switcherControls.switchEffect());
+
+    updateGuiStyle();
+
+    // Open folders by default
+    themeFolder.open();
+    effectFolder.open();
 }
 
-// Mouse move handler for model interaction
-function onMouseMove(event) {
-    if (!isAnimating && model) {
-        const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        
-        // Subtle tilt based on mouse position
-        gsap.to(model.rotation, {
-            x: mouseY * 0.1,
-            y: mouseX * 0.1 + Math.PI / 6,
-            duration: 1,
-            ease: "power2.out"
+// Function to update GUI styling based on current theme
+function updateGuiStyle() {
+    const style = document.createElement('style');
+    const theme = {
+        primary: getComputedStyle(document.documentElement).getPropertyValue('--primary-accent').trim(),
+        text: getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim(),
+        background: getComputedStyle(document.documentElement).getPropertyValue('--background-primary').trim(),
+        glass: getComputedStyle(document.documentElement).getPropertyValue('--glass-background').trim()
+    };
+
+    style.textContent = `
+        #gui-container {
+            background: ${theme.glass};
+            border-radius: 10px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid ${theme.primary}40;
+            box-shadow: 0 4px 6px ${theme.primary}20;
+        }
+        .dg.main {
+            font-family: 'Inter', sans-serif !important;
+            color: ${theme.text} !important;
+        }
+        .dg .c select {
+            color: ${theme.primary} !important;
+            background: ${theme.background} !important;
+        }
+        .dg .cr.number input[type=text] {
+            color: ${theme.primary} !important;
+            background: ${theme.background} !important;
+        }
+        .dg .c .slider {
+            background: ${theme.primary} !important;
+        }
+        .dg .c .slider:hover {
+            background: ${theme.primary}80 !important;
+        }
+        .dg .closed li.title {
+            background: ${theme.background} !important;
+        }
+        .dg .cr.boolean {
+            border-left: 3px solid ${theme.primary} !important;
+        }
+        .dg .cr.color {
+            border-left: 3px solid ${theme.primary} !important;
+        }
+        .dg .cr.number {
+            border-left: 3px solid ${theme.primary} !important;
+        }
+        .dg .cr.function {
+            border-left: 3px solid ${theme.primary} !important;
+        }
+        .dg li:not(.folder) {
+            background: ${theme.background}CC !important;
+            border-bottom: 1px solid ${theme.primary}20 !important;
+        }
+        .dg li.title {
+            background: ${theme.background}E6 !important;
+        }
+        .dg .property-name {
+            color: ${theme.text} !important;
+        }
+        .dg .c input[type=text] {
+            border: none !important;
+            box-shadow: inset 0 0 0 1px ${theme.primary}40 !important;
+        }
+    `;
+
+    // Remove old style if exists
+    const oldStyle = document.getElementById('gui-style');
+    if (oldStyle && oldStyle.parentNode) {
+        oldStyle.parentNode.removeChild(oldStyle);
+    }
+    style.id = 'gui-style';
+    document.head.appendChild(style);
+}
+
+// Helper function to update GUI display
+function updateGuiDisplay() {
+    if (gui && gui.__folders['Theme Settings']) {
+        const controllers = gui.__folders['Theme Settings'].__controllers;
+        controllers.forEach(controller => {
+            if (controller.updateDisplay) {
+                controller.updateDisplay();
+            }
         });
     }
 }
 
 // Window resize handler
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    // Handle any resize-related updates here
 }
 
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
-    
-    // Update controls
-    controls.update();
-    
-    // Update particle shader time uniform
-    if (particleSystem && particleSystem.material.uniforms) {
-        particleSystem.material.uniforms.time.value = clock.getElapsedTime();
-    }
-    
-    // Animate particles
-    if (particleSystem) {
-        particleSystem.rotation.y += 0.0003;
-        
-        // Make particles respond to mouse movement
-        if (mouseX && mouseY) {
-            particleSystem.rotation.x += (mouseY * 0.00005 - particleSystem.rotation.x) * 0.05;
-            particleSystem.rotation.y += (mouseX * 0.00005 - particleSystem.rotation.y) * 0.05;
-        }
-    }
-    
-    // Update animations if mixer exists
-    if (mixer) {
-        mixer.update(clock.getDelta());
-    }
-    
-    // Render scene
-    renderer.render(scene, camera);
+    // Add any continuous animations here
 }
-
-// Track mouse position for particle interaction
-let mouseX = 0;
-let mouseY = 0;
-
-document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX - window.innerWidth / 2);
-    mouseY = (event.clientY - window.innerHeight / 2);
-});
-
-// Mobile touch tracking
-document.addEventListener('touchmove', (event) => {
-    if (event.touches.length > 0) {
-        mouseX = (event.touches[0].clientX - window.innerWidth / 2);
-        mouseY = (event.touches[0].clientY - window.innerHeight / 2);
-    }
-}, { passive: true });
 
 // Navigation functionality
 function navSlide() {
@@ -391,9 +352,6 @@ function scrollEffects() {
     window.addEventListener('scroll', () => {
         let current = '';
         const scrollY = window.pageYOffset;
-        
-        // Update scroll position for parallax effects
-        scrollPosition = scrollY;
         
         // Check which section is in view
         sections.forEach(section => {
@@ -431,39 +389,6 @@ function animateOnScroll() {
     });
 }
 
-// Parallax effect for section backgrounds
-function parallaxEffect() {
-    const parallaxElements = document.querySelectorAll('.parallax');
-    
-    window.addEventListener('scroll', () => {
-        parallaxElements.forEach(element => {
-            const speed = element.dataset.speed || 0.5;
-            element.style.transform = `translateY(${scrollPosition * speed}px)`;
-        });
-    });
-}
-
-// Typing animation for intro text
-function typingAnimation() {
-    const typingElement = document.querySelector('.typing-element');
-    if (typingElement) {
-        const text = typingElement.textContent;
-        typingElement.textContent = '';
-        typingElement.classList.add('typing-animation');
-        
-        let i = 0;
-        const typeWriter = () => {
-            if (i < text.length) {
-                typingElement.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
-            }
-        };
-        
-        typeWriter();
-    }
-}
-
 // Skill bar animation
 function animateSkillBars() {
     const skillLevels = document.querySelectorAll('.skill-level');
@@ -481,8 +406,26 @@ function animateSkillBars() {
             if (entry.isIntersecting) {
                 // Animate all skill bars
                 skillLevels.forEach(level => {
-                    const targetWidth = level.style.getPropertyValue('--target-width') || level.dataset.width || level.getAttribute('style').match(/width:\s*(\d+)%/)[1] + '%';
-                    level.style.width = targetWidth;
+                    let targetWidth = '0%';
+                    
+                    // Try to get width from different sources
+                    if (level.dataset.width) {
+                        targetWidth = level.dataset.width;
+                    } else if (level.style.getPropertyValue('--target-width')) {
+                        targetWidth = level.style.getPropertyValue('--target-width');
+                    } else {
+                        const styleMatch = level.getAttribute('style') && level.getAttribute('style').match(/width:\s*(\d+)%/);
+                        if (styleMatch) {
+                            targetWidth = styleMatch[1] + '%';
+                        }
+                    }
+                    
+                    // Apply the width with animation
+                    gsap.to(level, {
+                        width: targetWidth,
+                        duration: 1,
+                        ease: "power2.out"
+                    });
                 });
                 
                 // Unobserve after animation
@@ -493,41 +436,6 @@ function animateSkillBars() {
     
     if (skillsSection) {
         observer.observe(skillsSection);
-    }
-}
-
-// Interactive story navigation
-function setupStoryNavigation() {
-    const storyChapters = document.querySelectorAll('.story-chapter');
-    const storyNav = document.querySelector('.story-navigation');
-    
-    if (storyChapters.length > 0 && storyNav) {
-        // Create navigation dots
-        storyChapters.forEach((chapter, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('story-nav-dot');
-            if (index === 0) dot.classList.add('active');
-            
-            dot.addEventListener('click', () => {
-                // Hide all chapters
-                storyChapters.forEach(ch => ch.classList.remove('active'));
-                
-                // Show selected chapter
-                storyChapters[index].classList.add('active');
-                
-                // Update active dot
-                document.querySelectorAll('.story-nav-dot').forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
-            });
-            
-            storyNav.appendChild(dot);
-        });
-        
-        // Show only first chapter initially
-        storyChapters.forEach((chapter, index) => {
-            if (index !== 0) chapter.classList.remove('active');
-            else chapter.classList.add('active');
-        });
     }
 }
 
@@ -543,7 +451,7 @@ function setupContactForm() {
             const formData = new FormData(contactForm);
             const formValues = Object.fromEntries(formData.entries());
             
-            // Show success message (in a real implementation, this would send the data)
+            // Show success message
             const formContainer = contactForm.parentElement;
             const successMessage = document.createElement('div');
             successMessage.classList.add('success-message');
@@ -563,114 +471,222 @@ function setupContactForm() {
                 formContainer.innerHTML = '';
                 formContainer.appendChild(contactForm);
                 contactForm.reset();
-                setupContactForm(); // Re-setup the form
+                setupContactForm();
             });
         });
     }
 }
 
-// Loading screen handler
-function handleLoading() {
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const loadingScreen = document.querySelector('.loading-screen');
-            if (loadingScreen) {
-                loadingScreen.style.opacity = '0';
+// Loading screen functionality
+function initLoadingScreen() {
+    return new Promise((resolve) => {
+    const progressBar = document.querySelector('.progress-bar');
+    const progressText = document.querySelector('.progress-text');
+        const introScreen = document.querySelector('.intro-screen');
+    let progress = 0;
+
+    const updateProgress = () => {
+        if (progress < 100) {
+                progress += 1;
+            if (progressBar) progressBar.style.width = `${progress}%`;
+            if (progressText) progressText.textContent = `${progress}%`;
+            
+            if (progress === 100) {
                 setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    isLoaded = true;
-                    
-                    // Start intro animations
-                    typingAnimation();
-                    animateIntro();
+                        if (introScreen) {
+                            introScreen.style.animation = 'fadeOut 1s ease-in-out forwards';
+                            setTimeout(() => {
+                            introScreen.style.display = 'none';
+                                resolve();
+                            }, 1000);
+                        } else {
+                            resolve();
+                        }
                 }, 500);
             } else {
-                isLoaded = true;
-                typingAnimation();
-                animateIntro();
+                setTimeout(updateProgress, 30);
             }
-        }, 1500); // Simulate loading time
+        }
+    };
+
+    setTimeout(updateProgress, 500);
+});
+}
+
+// Background toggle functionality
+function initBackgroundToggle() {
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'background-toggle';
+    toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+    toggleBtn.title = 'Toggle Background Animation';
+    document.body.appendChild(toggleBtn);
+
+    // Initialize state from localStorage or default to true
+    let isBackgroundEnabled = localStorage.getItem('backgroundEnabled') !== 'false';
+    updateBackgroundState(isBackgroundEnabled);
+
+    // Add click handler
+    toggleBtn.addEventListener('click', () => {
+        isBackgroundEnabled = !isBackgroundEnabled;
+        updateBackgroundState(isBackgroundEnabled);
+        localStorage.setItem('backgroundEnabled', isBackgroundEnabled);
     });
 }
 
-// Animate intro elements
-function animateIntro() {
-    // Animate main title
-    const mainTitle = document.querySelector('.hero-title');
-    if (mainTitle) {
-        gsap.from(mainTitle, {
-            y: -50,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out"
-        });
+function updateBackgroundState(enabled) {
+    const background = document.getElementById('vanta-background');
+    const toggleBtn = document.querySelector('.background-toggle');
+    
+    if (background) {
+        background.style.opacity = enabled ? '1' : '0.1';
     }
     
-    // Animate subtitle
-    const subtitle = document.querySelector('.hero-subtitle');
-    if (subtitle) {
-        gsap.from(subtitle, {
-            y: -30,
-            opacity: 0,
-            duration: 1,
-            delay: 0.3,
-            ease: "power3.out"
-        });
+    if (toggleBtn) {
+        toggleBtn.innerHTML = enabled ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
     }
     
-    // Animate tagline
-    const tagline = document.querySelector('.hero-tagline');
-    if (tagline) {
-        gsap.from(tagline, {
-            y: -20,
-            opacity: 0,
-            duration: 1,
-            delay: 0.6,
-            ease: "power3.out"
-        });
-    }
-    
-    // Animate CTA buttons
-    const ctaButtons = document.querySelectorAll('.cta-btn');
-    if (ctaButtons.length > 0) {
-        gsap.from(ctaButtons, {
-            y: 30,
-            opacity: 0,
-            duration: 1,
-            delay: 0.9,
-            stagger: 0.2,
-            ease: "power3.out"
-        });
-    }
-    
-    // Animate scroll indicator
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-        gsap.from(scrollIndicator, {
-            y: 20,
-            opacity: 0,
-            duration: 1,
-            delay: 1.5,
-            ease: "power3.out",
-            onComplete: () => {
-                // Add pulsing animation
-                gsap.to(scrollIndicator, {
-                    y: 10,
-                    opacity: 0.7,
-                    duration: 1.5,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "power1.inOut"
-                });
-            }
-        });
+    // Update Vanta effect
+    if (vantaEffect) {
+        if (!enabled) {
+            vantaEffect.setOptions({
+                mouseControls: false,
+                touchControls: false
+            });
+        } else {
+            vantaEffect.setOptions({
+                mouseControls: true,
+                touchControls: true
+            });
+        }
     }
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Three.js
-    init();
+// Cleanup function for Vanta effect and GUI
+function cleanupVantaEffect() {
+    if (vantaEffect) {
+        vantaEffect.destroy();
+        vantaEffect = null;
+    }
+    destroyGui();
+}
+
+// Animated text typing effect
+function initAnimatedText() {
+    const heroContent = document.querySelector('.hero-content');
+    if (!heroContent) return;
+
+    // Remove any existing h1 to avoid duplication
+    const existingTitle = heroContent.querySelector('h1');
+    if (existingTitle) {
+        existingTitle.remove();
+    }
+
+    // Create the animated title container
+    const animatedTitle = document.createElement('h1');
+    animatedTitle.className = 'animated-title';
+    animatedTitle.style.opacity = '1';
+    heroContent.insertBefore(animatedTitle, heroContent.firstChild);
+
+    const text = 'Vibhu Dikshit';
+    let currentChar = 0;
+
+    // Create cursor element
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    animatedTitle.appendChild(cursor);
+
+    // Typing animation with whitespace handling
+    function typeChar() {
+        if (currentChar < text.length) {
+            const char = document.createElement('span');
+            
+            if (text[currentChar] === ' ') {
+                // Handle space character
+                char.className = 'char space';
+                char.innerHTML = '&nbsp;';
+                char.style.marginRight = '0.5em'; // Add explicit spacing
+            } else {
+                char.className = 'char';
+                char.textContent = text[currentChar];
+            }
+            
+            // Set initial styles
+            char.style.opacity = '1';
+            char.style.color = 'white';
+            char.style.display = 'inline-block';
+            
+            // Insert before cursor
+            animatedTitle.insertBefore(char, cursor);
+            
+            // Add visible class with slight delay
+            setTimeout(() => {
+                char.classList.add('visible');
+            }, 50);
+
+            currentChar++;
+            setTimeout(typeChar, 150); // Slightly slower typing speed
+        } else {
+            // After typing complete
+            setTimeout(() => {
+                cursor.remove();
+                
+                // Add gradient effect to each character
+                const chars = animatedTitle.querySelectorAll('.char');
+                chars.forEach((char, index) => {
+                    setTimeout(() => {
+                        char.classList.add('gradient-text');
+                    }, index * 100); // Slower gradient transition
+                });
+
+                // Add glow effect after all characters have gradient
+                setTimeout(() => {
+                    animatedTitle.classList.add('glow-effect');
+                    
+                    // Add hover effects
+                    animatedTitle.addEventListener('mouseover', () => {
+                        gsap.to('.char', {
+                            duration: 0.3,
+                            scale: 1.1,
+                            stagger: {
+                                each: 0.05,
+                                from: "center"
+                            }
+                        });
+                    });
+
+                    animatedTitle.addEventListener('mouseout', () => {
+                        gsap.to('.char', {
+                            duration: 0.3,
+                            scale: 1,
+                            stagger: {
+                                each: 0.05,
+                                from: "edges"
+                            }
+                        });
+                    });
+                }, text.length * 100 + 500);
+            }, 500);
+        }
+    }
+
+    // Start typing animation
+    setTimeout(typeChar, 500);
+}
+
+// Initialize animations in sequence
+async function initializeAnimations() {
+    // First initialize background
+    initBackground();
+    
+    // Initialize background toggle
+    initBackgroundToggle();
+    
+    // Wait for loading screen to complete
+    await initLoadingScreen();
+    
+    // Then initialize animated text
+    initAnimatedText();
     
     // Setup navigation
     navSlide();
@@ -678,23 +694,263 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup scroll effects
     scrollEffects();
     
-    // Setup parallax effects
-    parallaxEffect();
-    
     // Setup skill bar animations
     animateSkillBars();
     
-    // Setup story navigation
-    setupStoryNavigation();
-    
     // Setup contact form
     setupContactForm();
-    
-    // Handle loading screen
-    handleLoading();
     
     // Add animate-on-scroll class to elements
     document.querySelectorAll('.section-title, .glass-card, .timeline-item, .education-item').forEach(element => {
         element.classList.add('animate-on-scroll');
     });
+
+    // Animate logo letters
+    const logoLetters = document.querySelectorAll('.logo-letter');
+    logoLetters.forEach((letter, index) => {
+        gsap.to(letter, {
+            y: -3,
+                    duration: 1.5,
+                    yoyo: true,
+            repeat: -1,
+            ease: "power1.inOut",
+            delay: index * 0.5
+        });
+    });
+
+    // Initialize header logo animations
+    animateHeaderLogo();
+
+    // Initialize hover effects
+    initializeHoverEffects();
+
+    // Add cleanup on page unload
+    window.addEventListener('beforeunload', cleanupVantaEffect);
+}
+
+// Separate hover effects initialization
+function initializeHoverEffects() {
+    // Animate name on hover
+    const nameTitle = document.querySelector('.name-title');
+    if (nameTitle) {
+        nameTitle.addEventListener('mouseover', () => {
+            gsap.to(nameTitle, {
+                duration: 0.3,
+                scale: 1.05,
+                letterSpacing: "2px",
+                filter: "drop-shadow(0 0 20px rgba(45, 91, 255, 0.5))",
+                ease: "power2.out"
+            });
+        });
+
+        nameTitle.addEventListener('mouseout', () => {
+            gsap.to(nameTitle, {
+                duration: 0.3,
+                scale: 1,
+                letterSpacing: "0px",
+                filter: "none",
+                ease: "power2.in"
+            });
+        });
+    }
+
+    // Animate profession tags
+    const professions = document.querySelectorAll('.profession');
+    professions.forEach(profession => {
+        profession.addEventListener('mouseover', () => {
+            gsap.to(profession, {
+                duration: 0.3,
+                y: -3,
+                backgroundColor: "rgba(45, 91, 255, 0.2)",
+                boxShadow: "0 5px 15px rgba(45, 91, 255, 0.2)",
+                ease: "power2.out"
+            });
+        });
+
+        profession.addEventListener('mouseout', () => {
+            gsap.to(profession, {
+                duration: 0.3,
+                y: 0,
+                backgroundColor: "rgba(45, 91, 255, 0.1)",
+                boxShadow: "none",
+                ease: "power2.in"
+            });
+        });
+    });
+
+    // Add gradient text follow effect for tagline
+    const tagline = document.querySelector('.tagline');
+    if (tagline) {
+        // Remove old gradient overlay if exists
+        const oldOverlay = tagline.querySelector('.gradient-cursor-overlay');
+        if (oldOverlay) {
+            oldOverlay.remove();
+        }
+
+        // Update gradient position on mouse move
+        tagline.addEventListener('mousemove', (e) => {
+            const rect = tagline.getBoundingClientRect();
+            const x = e.clientX - rect.left; // relative mouse X
+            const y = e.clientY - rect.top;  // relative mouse Y
+            
+            // Update the background position of the gradient
+            tagline.style.backgroundImage = `
+                linear-gradient(
+                    45deg,
+                    var(--primary-accent),
+                    var(--secondary-accent) 45%,
+                    var(--text-primary) 50%,
+                    var(--secondary-accent) 55%,
+                    var(--primary-accent)
+                )
+            `;
+            tagline.style.backgroundSize = '200% 200%';
+            tagline.style.backgroundPosition = `${(x / rect.width) * 100}% ${(y / rect.height) * 100}%`;
+            tagline.style.webkitBackgroundClip = 'text';
+            tagline.style.backgroundClip = 'text';
+            tagline.style.webkitTextFillColor = 'transparent';
+            tagline.style.color = 'transparent';
+        });
+
+        // Reset on mouse leave
+        tagline.addEventListener('mouseleave', () => {
+            tagline.style.backgroundImage = 'none';
+            tagline.style.webkitTextFillColor = 'initial';
+            tagline.style.color = 'var(--text-primary)';
+            tagline.style.textShadow = 'none';
+        });
+
+        // Remove old hover effects
+        tagline.removeEventListener('mouseover', () => {});
+        tagline.removeEventListener('mouseout', () => {});
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded');
+    initializeAnimations().catch(console.error);
+});
+
+// Add this new function for the header logo animations
+function animateHeaderLogo() {
+    const letterV = document.querySelector('.nav-logo .logo-letter:first-child');
+    const letterD = document.querySelector('.nav-logo .logo-letter:last-child');
+    
+    // Create a sequence of animations using GSAP timeline
+    const timeline = gsap.timeline({
+        repeat: -1, // Infinite loop
+        repeatDelay: 0.5 // Pause between sequences
+    });
+
+    // Animation 1: Floating effect
+    timeline.to([letterV, letterD], {
+        y: -10,
+        duration: 1,
+        ease: "power1.inOut",
+        stagger: 0.2,
+        filter: "drop-shadow(0 0 10px rgba(45, 91, 255, 0.5))"
+    })
+    .to([letterV, letterD], {
+        y: 0,
+        duration: 1,
+        ease: "power1.inOut",
+        stagger: 0.2
+    });
+
+    // Animation 2: 3D Spin
+    timeline.to([letterV, letterD], {
+        rotateY: 360,
+        duration: 1.5,
+        ease: "power2.inOut",
+        stagger: 0.2,
+        filter: "drop-shadow(0 0 15px rgba(45, 91, 255, 0.7))"
+    });
+
+    // Animation 3: Bounce and Scale
+    timeline.to([letterV, letterD], {
+        scale: 1.2,
+        y: -5,
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.2,
+        filter: "drop-shadow(0 0 20px rgba(45, 91, 255, 0.8))"
+    })
+    .to([letterV, letterD], {
+        scale: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "bounce.out",
+        stagger: 0.2
+    });
+
+    // Animation 4: Shake and Glow
+    timeline.to([letterV, letterD], {
+        x: -5,
+        rotation: -5,
+        duration: 0.1,
+        ease: "none",
+        stagger: 0.1,
+        repeat: 5,
+        yoyo: true,
+        filter: "drop-shadow(0 0 25px rgba(45, 91, 255, 0.9))"
+    });
+
+    // Animation 5: Smooth Wave
+    timeline.to([letterV, letterD], {
+        rotation: 10,
+        duration: 1,
+        ease: "sine.inOut",
+        stagger: 0.2,
+        filter: "drop-shadow(0 0 15px rgba(45, 91, 255, 0.6))"
+    })
+    .to([letterV, letterD], {
+        rotation: 0,
+        duration: 1,
+        ease: "sine.inOut",
+        stagger: 0.2
+    });
+
+    // Hover effect
+    const logoContainer = document.querySelector('.nav-logo');
+    
+    logoContainer.addEventListener('mouseenter', () => {
+        gsap.to([letterV, letterD], {
+            scale: 1.3,
+            duration: 0.3,
+            filter: "drop-shadow(0 0 30px rgba(45, 91, 255, 1))",
+            stagger: 0.1,
+            ease: "back.out(1.7)"
+        });
+    });
+
+    logoContainer.addEventListener('mouseleave', () => {
+        gsap.to([letterV, letterD], {
+            scale: 1,
+            duration: 0.3,
+            filter: "drop-shadow(0 0 10px rgba(45, 91, 255, 0.5))",
+            stagger: 0.1,
+            ease: "back.out(1.7)"
+        });
+    });
+}
+
+// Add a function to force a new random effect
+function forceNewRandomEffect() {
+    if (vantaEffect) {
+        vantaEffect.destroy();
+    }
+    
+    // Remove the last effect from localStorage to ensure randomness
+    localStorage.removeItem('lastVantaEffect');
+    
+    // Initialize with a new random effect
+    initBackground();
+}
+
+// Add a keyboard shortcut for testing (Press 'R' to randomize)
+document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'r') {
+        forceNewRandomEffect();
+    }
 });

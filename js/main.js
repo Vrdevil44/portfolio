@@ -359,71 +359,61 @@ function navSlide() {
     });
 }
 
-// Scroll effects
+// Scroll animation for elements
 function scrollEffects() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-links a');
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
     
-    window.addEventListener('scroll', () => {
-        let current = '';
-        const scrollY = window.pageYOffset;
-        
-        // Check which section is in view
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (scrollY >= (sectionTop - sectionHeight / 3)) {
-                current = section.getAttribute('id');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Unobserve after animation
+                observer.unobserve(entry.target);
             }
         });
-        
-        // Update active nav link
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === current) {
-                link.classList.add('active');
-            }
-        });
-        
-        // Animate elements when they come into view
-        animateOnScroll();
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     });
-}
 
-// Animate elements when they come into view
-function animateOnScroll() {
-    const animateElements = document.querySelectorAll('.animate-on-scroll');
-    
-    animateElements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < window.innerHeight - elementVisible) {
-            element.classList.add('visible');
-        }
+    animatedElements.forEach(element => {
+        observer.observe(element);
     });
 }
 
 // Skill bar animation
 function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-progress');
+    const skillLevels = document.querySelectorAll('.skill-level');
+    const skillsSection = document.querySelector('.skills-section');
     
+    // Create intersection observer for skills section
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const progressBar = entry.target;
-                const percentage = progressBar.getAttribute('data-progress');
-                progressBar.style.width = percentage + '%';
-                observer.unobserve(progressBar);
+                // Animate all skill bars when section is visible
+                skillLevels.forEach(level => {
+                    const targetWidth = level.style.width || '0%';
+                    // First set to 0
+                    level.style.width = '0%';
+                    // Force reflow
+                    level.offsetWidth;
+                    // Then animate to target
+                    requestAnimationFrame(() => {
+                        level.style.width = targetWidth;
+                    });
+                });
+                // Unobserve after animation
+                observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
-
-    skillBars.forEach(bar => {
-        // Reset width to 0 before animation
-        bar.style.width = '0';
-        observer.observe(bar);
+    }, {
+        threshold: 0.2 // Trigger when 20% of the section is visible
     });
+
+    // Start observing skills section
+    if (skillsSection) {
+        observer.observe(skillsSection);
+    }
 }
 
 // Form submission handler

@@ -1,365 +1,228 @@
-// Vanta.js effect configurations
+// Vanta effect configurations
 const VANTA_CONFIG = {
-    DOTS: {
-        ranges: {
-            size: [0.5, 3],
-            spacing: [10, 50],
-            showDots: [true, false],
-            backgroundColor: [0x000000, 0xffffff],
-            color1: [0x2451FF, 0xffffff],
-            color2: [0x7B68EE, 0xffffff],
-            colorMode: ['variance', 'variance'],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
-        },
-        colors: ['backgroundColor', 'color1', 'color2'],
-        defaults: {
-            size: 1,
-            spacing: 30,
-            showDots: true,
-            backgroundColor: 0x0A0A0A,
-            color1: 0x2451FF,
-            color2: 0x7B68EE,
-            colorMode: 'variance',
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
-        }
-    },
-    HALO: {
-        ranges: {
-            amplitudeFactor: [1, 5],
-            baseColor: [0x2451FF, 0xffffff],
-            backgroundColor: [0x000000, 0xffffff],
-            size: [0.5, 2],
-            xOffset: [-0.5, 0.5],
-            yOffset: [-0.5, 0.5],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
-        },
-        colors: ['baseColor', 'backgroundColor'],
-        defaults: {
-            amplitudeFactor: 2,
-            baseColor: 0x2451FF,
-            backgroundColor: 0x0A0A0A,
-            size: 1,
-            xOffset: 0,
-            yOffset: 0,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
-        }
-    },
-    TOPOLOGY: {
-        ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            lineColor: [0x2451FF, 0xffffff],
-            points: [5, 20],
-            maxDistance: [10, 50],
-            spacing: [10, 50],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
-        },
-        colors: ['backgroundColor', 'lineColor'],
-        defaults: {
-            backgroundColor: 0x0A0A0A,
-            lineColor: 0x2451FF,
-            points: 10,
-            maxDistance: 25,
-            spacing: 30,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
-        }
-    },
     WAVES: {
+        name: 'Waves',
         ranges: {
-            amplitude: [0.5, 5],
-            amplitudeFactor: [0.5, 5],
-            speed: [0.5, 2],
-            zoom: [0.5, 2],
-            backgroundColor: [0x000000, 0xffffff],
-            color: [0x2451FF, 0xffffff],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            waveHeight: [0, 40],
+            waveSpeed: [0, 2],
+            zoom: [0.1, 2],
+            scale: [0.1, 2.0]
         },
-        colors: ['backgroundColor', 'color'],
+        colors: ['color', 'backgroundColor'],
         defaults: {
-            amplitude: 1.5,
-            amplitudeFactor: 1.5,
-            speed: 1,
-            zoom: 1,
-            backgroundColor: 0x0A0A0A,
-            color: 0x2451FF,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            waveHeight: 20,
+            waveSpeed: 0.75,
+            zoom: 0.75,
+            scale: 1.0
         }
     },
     BIRDS: {
+        name: 'Birds',
         ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            color1: [0x2451FF, 0xffffff],
-            color2: [0x7B68EE, 0xffffff],
-            colorMode: ['variance', 'variance'],
-            quantity: [1, 5],
-            separation: [10, 50],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            birdSize: [0.5, 3],
+            wingSpan: [10, 40],
+            speedLimit: [1, 10],
+            separation: [1, 100],
+            alignment: [1, 100],
+            cohesion: [1, 100],
+            quantity: [1, 100]
         },
-        colors: ['backgroundColor', 'color1', 'color2'],
+        colors: ['color', 'backgroundColor'],
         defaults: {
-            backgroundColor: 0x0A0A0A,
-            color1: 0x2451FF,
-            color2: 0x7B68EE,
-            colorMode: 'variance',
-            quantity: 3,
-            separation: 30,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            birdSize: 1.5,
+            wingSpan: 20,
+            speedLimit: 5,
+            separation: 20,
+            alignment: 20,
+            cohesion: 20,
+            quantity: 30
         }
     },
     FOG: {
+        name: 'Fog',
         ranges: {
-            highlightColor: [0x2451FF, 0xffffff],
-            midtoneColor: [0x7B68EE, 0xffffff],
-            lowlightColor: [0x000000, 0xffffff],
-            baseColor: [0x000000, 0xffffff],
-            blurFactor: [0.5, 2],
-            speed: [0.5, 2],
-            zoom: [0.5, 2],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            speed: [0.1, 5.0],
+            zoom: [0.1, 3.0],
+            blur: [0, 20]
         },
         colors: ['highlightColor', 'midtoneColor', 'lowlightColor', 'baseColor'],
         defaults: {
-            highlightColor: 0x2451FF,
-            midtoneColor: 0x7B68EE,
-            lowlightColor: 0x000000,
-            baseColor: 0x0A0A0A,
-            blurFactor: 1,
-            speed: 1,
-            zoom: 1,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            speed: 1.0,
+            zoom: 1.0,
+            blur: 0.8
         }
     },
     CLOUDS: {
+        name: 'Clouds',
         ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            cloudColor: [0x2451FF, 0xffffff],
-            cloudShadowColor: [0x7B68EE, 0xffffff],
-            speed: [0.5, 2],
-            texturePath: ['/noise.png', '/noise.png'],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            speed: [0.1, 5],
+            scale: [0.1, 2.0],
+            width: [0.1, 3.0],
+            height: [0.1, 3.0]
         },
-        colors: ['backgroundColor', 'cloudColor', 'cloudShadowColor'],
+        colors: ['skyColor', 'cloudColor', 'cloudShadowColor'],
         defaults: {
-            backgroundColor: 0x0A0A0A,
-            cloudColor: 0x2451FF,
-            cloudShadowColor: 0x7B68EE,
-            speed: 1,
-            texturePath: '/noise.png',
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            speed: 1.0,
+            scale: 1.0,
+            width: 1.0,
+            height: 1.0
         }
     },
     GLOBE: {
+        name: 'Globe',
         ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            color: [0x2451FF, 0xffffff],
-            points: [5, 20],
-            maxDistance: [10, 50],
-            spacing: [10, 50],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            size: [0.1, 2],
+            scale: [0.1, 2.0],
+            spacing: [0, 20],
+            rotation: [0, 360]
         },
-        colors: ['backgroundColor', 'color'],
+        colors: ['color', 'backgroundColor'],
         defaults: {
-            backgroundColor: 0x0A0A0A,
-            color: 0x2451FF,
-            points: 10,
-            maxDistance: 25,
-            spacing: 30,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            size: 1.0,
+            scale: 1.0,
+            spacing: 0,
+            rotation: 0
         }
     },
     NET: {
+        name: 'Net',
         ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            color: [0x2451FF, 0xffffff],
-            points: [5, 20],
+            points: [1, 20],
             maxDistance: [10, 50],
             spacing: [10, 50],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            scale: [0.1, 2.0]
         },
-        colors: ['backgroundColor', 'color'],
+        colors: ['color', 'backgroundColor'],
         defaults: {
-            backgroundColor: 0x0A0A0A,
-            color: 0x2451FF,
             points: 10,
-            maxDistance: 25,
-            spacing: 30,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            maxDistance: 20,
+            spacing: 15,
+            scale: 1.0
         }
     },
     RINGS: {
+        name: 'Rings',
         ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            color: [0x2451FF, 0xffffff],
-            points: [5, 20],
-            maxDistance: [10, 50],
-            spacing: [10, 50],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            scale: [0.1, 2.0],
+            spacing: [0, 20],
+            rotation: [0, 360],
+            size: [0.1, 2.0]
         },
-        colors: ['backgroundColor', 'color'],
+        colors: ['color', 'backgroundColor'],
         defaults: {
-            backgroundColor: 0x0A0A0A,
-            color: 0x2451FF,
-            points: 10,
-            maxDistance: 25,
-            spacing: 30,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            scale: 1.0,
+            spacing: 0,
+            rotation: 0,
+            size: 1.0
         }
     },
     CELLS: {
+        name: 'Cells',
         ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            color: [0x2451FF, 0xffffff],
-            points: [5, 20],
-            maxDistance: [10, 50],
-            spacing: [10, 50],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            scale: [0.1, 2.0],
+            size: [0.1, 3.0],
+            speed: [0.1, 5.0],
+            color: [0, 1]
         },
-        colors: ['backgroundColor', 'color'],
+        colors: ['color', 'backgroundColor'],
         defaults: {
-            backgroundColor: 0x0A0A0A,
-            color: 0x2451FF,
-            points: 10,
-            maxDistance: 25,
-            spacing: 30,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            scale: 1.0,
+            size: 1.0,
+            speed: 1.0,
+            color: 0.5
         }
     },
     TRUNK: {
+        name: 'Trunk',
         ranges: {
-            backgroundColor: [0x000000, 0xffffff],
-            color: [0x2451FF, 0xffffff],
-            points: [5, 20],
-            maxDistance: [10, 50],
-            spacing: [10, 50],
-            gyroControls: [false, true],
-            mouseControls: [true, false],
-            touchControls: [true, false],
-            minHeight: [200, 800],
-            minWidth: [200, 800]
+            scale: [0.1, 2.0],
+            spacing: [10, 100],
+            speed: [0.1, 5.0]
         },
-        colors: ['backgroundColor', 'color'],
+        colors: ['color', 'backgroundColor'],
         defaults: {
-            backgroundColor: 0x0A0A0A,
-            color: 0x2451FF,
-            points: 10,
-            maxDistance: 25,
+            scale: 1.0,
             spacing: 30,
-            gyroControls: false,
-            mouseControls: true,
-            touchControls: true,
-            minHeight: 200,
-            minWidth: 200
+            speed: 1.0
+        }
+    },
+    TOPOLOGY: {
+        name: 'Topology',
+        ranges: {
+            scale: [0.1, 2.0],
+            spacing: [10, 100],
+            speed: [0.1, 5.0],
+            points: [1, 20]
+        },
+        colors: ['color', 'backgroundColor'],
+        defaults: {
+            scale: 1.0,
+            spacing: 30,
+            speed: 1.0,
+            points: 10
+        }
+    },
+    DOTS: {
+        name: 'Dots',
+        ranges: {
+            scale: [0.1, 2.0],
+            spacing: [10, 100],
+            size: [0.1, 3.0],
+            speed: [0.1, 5.0]
+        },
+        colors: ['color', 'backgroundColor'],
+        defaults: {
+            scale: 1.0,
+            spacing: 30,
+            size: 1.0,
+            speed: 1.0
+        }
+    },
+    HALO: {
+        name: 'Halo',
+        ranges: {
+            size: [0.1, 2.0],
+            scale: [0.1, 2.0],
+            spacing: [0, 20],
+            rotation: [0, 360]
+        },
+        colors: ['color', 'backgroundColor'],
+        defaults: {
+            size: 1.0,
+            scale: 1.0,
+            spacing: 0,
+            rotation: 0
         }
     }
 };
 
-// Helper functions
+// Helper functions for effect configuration
 function getEffectConfig(effectName) {
-    return VANTA_CONFIG[effectName];
+    return VANTA_CONFIG[effectName] || null;
 }
 
 function getEffectDefaults(effectName) {
-    return VANTA_CONFIG[effectName]?.defaults || {};
+    const config = getEffectConfig(effectName);
+    return config ? config.defaults : {};
 }
 
 function getEffectRanges(effectName) {
-    return VANTA_CONFIG[effectName]?.ranges || {};
+    const config = getEffectConfig(effectName);
+    return config ? config.ranges : {};
 }
 
 function getEffectColors(effectName) {
-    return VANTA_CONFIG[effectName]?.colors || [];
+    const config = getEffectConfig(effectName);
+    return config ? config.colors : [];
 }
 
 // Export the configuration and helper functions
-window.VANTA_CONFIG = VANTA_CONFIG;
-window.getEffectConfig = getEffectConfig;
-window.getEffectDefaults = getEffectDefaults;
-window.getEffectRanges = getEffectRanges;
-window.getEffectColors = getEffectColors; 
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        VANTA_CONFIG,
+        getEffectConfig,
+        getEffectDefaults,
+        getEffectRanges,
+        getEffectColors
+    };
+} 

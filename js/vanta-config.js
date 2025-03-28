@@ -119,17 +119,19 @@ const VANTA_CONFIG = {
     CELLS: {
         name: 'Cells',
         ranges: {
-            scale: [0.1, 2.0],
-            size: [0.1, 3.0],
-            speed: [0.1, 5.0],
-            color: [0, 1]
+            scale: [0.5, 2.0],
+            color: [0x000000, 0xffffff],
+            backgroundColor: [0x000000, 0xffffff],
+            size: [0.5, 3.0],
+            speed: [0.5, 5.0]
         },
         colors: ['color', 'backgroundColor'],
         defaults: {
             scale: 1.0,
-            size: 1.0,
-            speed: 1.0,
-            color: 0.5
+            color: 0x2451FF,
+            backgroundColor: 0x121212,
+            size: 1.5,
+            speed: 1.0
         }
     },
     TRUNK: {

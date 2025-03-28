@@ -40,51 +40,61 @@ function resetTheme() {
 // Vanta background configuration
 const VANTA_EFFECTS = [
     { name: 'WAVES', init: VANTA.WAVES },
-    { name: 'BIRDS', init: VANTA.BIRDS },
     { name: 'FOG', init: VANTA.FOG },
     { name: 'CLOUDS', init: VANTA.CLOUDS },
     { name: 'GLOBE', init: VANTA.GLOBE },
     { name: 'NET', init: VANTA.NET },
     { name: 'RINGS', init: VANTA.RINGS },
     { name: 'CELLS', init: VANTA.CELLS },
-    { name: 'TRUNK', init: VANTA.TRUNK },
-    { name: 'TOPOLOGY', init: VANTA.TOPOLOGY },
     { name: 'HALO', init: VANTA.HALO },
     { name: 'DOTS', init: VANTA.DOTS }
-
 ];
 
 // Initialize background effect
 function initBackground() {
     const container = document.getElementById('vanta-background');
-    if (!container) return;
+    if (!container) {
+        console.warn('Vanta background container not found');
+        return;
+    }
 
-    // Get a random effect every time
-    const randomEffect = VANTA_EFFECTS[Math.floor(Math.random() * VANTA_EFFECTS.length)];
-    
-    // Get effect configuration
-    const effectConfig = getEffectConfig(randomEffect.name);
-    const effectDefaults = getEffectDefaults(randomEffect.name);
-    
-    // Base configuration
-    const config = {
-        el: container,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        ...effectDefaults
-    };
+    // Check if Vanta is available
+    if (typeof VANTA === 'undefined') {
+        console.warn('Vanta.js not loaded');
+        return;
+    }
 
-    // Initialize the effect
-    vantaEffect = randomEffect.init(config);
+    try {
+        // Get a random effect every time
+        const randomEffect = VANTA_EFFECTS[Math.floor(Math.random() * VANTA_EFFECTS.length)];
+        
+        // Get effect configuration
+        const effectConfig = getEffectConfig(randomEffect.name);
+        const effectDefaults = getEffectDefaults(randomEffect.name);
+        
+        // Base configuration
+        const config = {
+            el: container,
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.0,
+            minWidth: 200.0,
+            scale: 1.0,
+            ...effectDefaults
+        };
 
-    // Store the effect name for the GUI
-    localStorage.setItem('lastVantaEffect', randomEffect.name);
+        // Initialize the effect
+        vantaEffect = randomEffect.init(config);
 
-    // Initialize GUI controls
-    initGuiControls(randomEffect.name);
+        // Store the effect name for the GUI
+        localStorage.setItem('lastVantaEffect', randomEffect.name);
+
+        // Initialize GUI controls
+        initGuiControls(randomEffect.name);
+    } catch (error) {
+        console.error('Error initializing Vanta effect:', error);
+    }
 }
 
 // Safely destroy GUI
@@ -157,23 +167,28 @@ function initGuiControls(effectName) {
         
         // Add controls for numeric properties with defined ranges
         Object.entries(effectConfig.ranges).forEach(([key, range]) => {
-            effectControls[key] = vantaEffect.options[key] || effectConfig.defaults[key];
-            effectFolder.add(effectControls, key, ...range).onChange(value => {
-                const options = {};
-                options[key] = value;
-                vantaEffect.setOptions(options);
-            });
-        });
-        
-        // Add controls for colors
-        effectConfig.colors.forEach(colorKey => {
-            const currentColor = vantaEffect.options[colorKey] || effectConfig.defaults[colorKey] || 0x2451FF;
-            effectControls[colorKey] = '#' + currentColor.toString(16).padStart(6, '0');
-            effectFolder.addColor(effectControls, colorKey).onChange(value => {
-                const options = {};
-                options[colorKey] = new THREE.Color(value).getHex();
-                vantaEffect.setOptions(options);
-            });
+            // Get current value from effect or use default
+            const currentValue = vantaEffect.options[key] || effectConfig.defaults[key];
+            
+            // Handle color values specially
+            if (effectConfig.colors && effectConfig.colors.includes(key)) {
+                effectControls[key] = '#' + currentValue.toString(16).padStart(6, '0');
+                effectFolder.addColor(effectControls, key).onChange(value => {
+                    const options = {};
+                    options[key] = parseInt(value.replace('#', ''), 16);
+                    vantaEffect.setOptions(options);
+                });
+            } else {
+                // Handle numeric values
+                effectControls[key] = currentValue;
+                effectFolder.add(effectControls, key, range[0], range[1])
+                    .step((range[1] - range[0]) / 100)
+                    .onChange(value => {
+                        const options = {};
+                        options[key] = value;
+                        vantaEffect.setOptions(options);
+                    });
+            }
         });
     }
 
@@ -391,52 +406,24 @@ function animateOnScroll() {
 
 // Skill bar animation
 function animateSkillBars() {
-    const skillLevels = document.querySelectorAll('.skill-level');
-    
-    // Initial state - width: 0
-    skillLevels.forEach(level => {
-        level.style.width = '0';
-    });
-    
-    // Animate when skills section comes into view
-    const skillsSection = document.querySelector('.skills-section');
+    const skillBars = document.querySelectorAll('.skill-progress');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Animate all skill bars
-                skillLevels.forEach(level => {
-                    let targetWidth = '0%';
-                    
-                    // Try to get width from different sources
-                    if (level.dataset.width) {
-                        targetWidth = level.dataset.width;
-                    } else if (level.style.getPropertyValue('--target-width')) {
-                        targetWidth = level.style.getPropertyValue('--target-width');
-                    } else {
-                        const styleMatch = level.getAttribute('style') && level.getAttribute('style').match(/width:\s*(\d+)%/);
-                        if (styleMatch) {
-                            targetWidth = styleMatch[1] + '%';
-                        }
-                    }
-                    
-                    // Apply the width with animation
-                    gsap.to(level, {
-                        width: targetWidth,
-                        duration: 1,
-                        ease: "power2.out"
-                    });
-                });
-                
-                // Unobserve after animation
-                observer.unobserve(entry.target);
+                const progressBar = entry.target;
+                const percentage = progressBar.getAttribute('data-progress');
+                progressBar.style.width = percentage + '%';
+                observer.unobserve(progressBar);
             }
         });
-    }, { threshold: 0.2 });
-    
-    if (skillsSection) {
-        observer.observe(skillsSection);
-    }
+    }, { threshold: 0.1 });
+
+    skillBars.forEach(bar => {
+        // Reset width to 0 before animation
+        bar.style.width = '0';
+        observer.observe(bar);
+    });
 }
 
 // Form submission handler
@@ -676,56 +663,62 @@ function initAnimatedText() {
 
 // Initialize animations in sequence
 async function initializeAnimations() {
-    // First initialize background
-    initBackground();
-    
-    // Initialize background toggle
-    initBackgroundToggle();
-    
-    // Wait for loading screen to complete
-    await initLoadingScreen();
-    
-    // Then initialize animated text
-    initAnimatedText();
-    
-    // Setup navigation
-    navSlide();
-    
-    // Setup scroll effects
-    scrollEffects();
-    
-    // Setup skill bar animations
-    animateSkillBars();
-    
-    // Setup contact form
-    setupContactForm();
-    
-    // Add animate-on-scroll class to elements
-    document.querySelectorAll('.section-title, .glass-card, .timeline-item, .education-item').forEach(element => {
-        element.classList.add('animate-on-scroll');
-    });
+    try {
+        // First initialize background
+        initBackground();
+        
+        // Initialize background toggle
+        initBackgroundToggle();
+        
+        // Wait for loading screen to complete
+        await initLoadingScreen();
+        
+        // Then initialize animated text
+        initAnimatedText();
+        
+        // Setup navigation
+        navSlide();
+        
+        // Setup scroll effects
+        scrollEffects();
+        
+        // Setup skill bar animations
+        animateSkillBars();
+        
+        // Setup contact form
+        setupContactForm();
+        
+        // Add animate-on-scroll class to elements
+        document.querySelectorAll('.section-title, .glass-card, .timeline-item, .education-item').forEach(element => {
+            element.classList.add('animate-on-scroll');
+        });
 
-    // Animate logo letters
-    const logoLetters = document.querySelectorAll('.logo-letter');
-    logoLetters.forEach((letter, index) => {
-        gsap.to(letter, {
-            y: -3,
+        // Animate logo letters
+        const logoLetters = document.querySelectorAll('.logo-letter');
+        if (logoLetters.length > 0) {
+            logoLetters.forEach((letter, index) => {
+                gsap.to(letter, {
+                    y: -3,
                     duration: 1.5,
                     yoyo: true,
-            repeat: -1,
-            ease: "power1.inOut",
-            delay: index * 0.5
-        });
-    });
+                    repeat: -1,
+                    ease: "power1.inOut",
+                    delay: index * 0.5
+                });
+            });
+        }
 
-    // Initialize header logo animations
-    animateHeaderLogo();
+        // Initialize header logo animations
+        animateHeaderLogo();
 
-    // Initialize hover effects
-    initializeHoverEffects();
+        // Initialize hover effects
+        initializeHoverEffects();
 
-    // Add cleanup on page unload
-    window.addEventListener('beforeunload', cleanupVantaEffect);
+        // Add cleanup on page unload
+        window.addEventListener('beforeunload', cleanupVantaEffect);
+    } catch (error) {
+        console.error('Error initializing animations:', error);
+    }
 }
 
 // Separate hover effects initialization
@@ -829,7 +822,12 @@ function initializeHoverEffects() {
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded');
-    initializeAnimations().catch(console.error);
+    // Add a small delay to ensure all scripts are loaded
+    setTimeout(() => {
+        initializeAnimations().catch(error => {
+            console.error('Error in initialization:', error);
+        });
+    }, 100);
 });
 
 // Add this new function for the header logo animations

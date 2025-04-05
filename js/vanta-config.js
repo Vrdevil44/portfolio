@@ -1,230 +1,136 @@
-// Vanta effect configurations
-const VANTA_CONFIG = {
-    WAVES: {
-        name: 'Waves',
-        ranges: {
-            waveHeight: [0, 40],
-            waveSpeed: [0, 2],
-            zoom: [0.1, 2],
-            scale: [0.1, 2.0]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            waveHeight: 20,
-            waveSpeed: 0.75,
-            zoom: 0.75,
-            scale: 1.0
-        }
-    },
-    BIRDS: {
-        name: 'Birds',
-        ranges: {
-            birdSize: [0.5, 3],
-            wingSpan: [10, 40],
-            speedLimit: [1, 10],
-            separation: [1, 100],
-            alignment: [1, 100],
-            cohesion: [1, 100],
-            quantity: [1, 100]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            birdSize: 1.5,
-            wingSpan: 20,
-            speedLimit: 5,
-            separation: 20,
-            alignment: 20,
-            cohesion: 20,
-            quantity: 30
-        }
+const vantaSettings = {
+    DOTS: {
+      color: { type: 'color', default: '#ff20a3' },
+      color2: { type: 'color', default: '#435cb3' },
+      backgroundColor: { type: 'color', default: '#200000' },
+      size: { type: 'slider', min: 0, max: 5, step: 0.1, default: 1.9 },
+      spacing: { type: 'slider', min: 0, max: 10, step: 1, default: 5 },
+      mouseControls: { type: 'checkbox', default: true },
+      touchControls: { type: 'checkbox', default: true },
+      gyroControls: { type: 'checkbox', default: false },
+      minHeight: { type: 'hidden', default: 200 },  // we can skip GUI for static ones
+      minWidth: { type: 'hidden', default: 200 },
+      scale: { type: 'hidden', default: 1 },
+      scaleMobile: { type: 'hidden', default: 1 }
     },
     FOG: {
-        name: 'Fog',
-        ranges: {
-            speed: [0.1, 5.0],
-            zoom: [0.1, 3.0],
-            blur: [0, 20]
-        },
-        colors: ['highlightColor', 'midtoneColor', 'lowlightColor', 'baseColor'],
-        defaults: {
-            speed: 1.0,
-            zoom: 1.0,
-            blur: 0.8
-        }
-    },
-    CLOUDS: {
-        name: 'Clouds',
-        ranges: {
-            speed: [0.1, 5],
-            scale: [0.1, 2.0],
-            width: [0.1, 3.0],
-            height: [0.1, 3.0]
-        },
-        colors: ['skyColor', 'cloudColor', 'cloudShadowColor'],
-        defaults: {
-            speed: 1.0,
-            scale: 1.0,
-            width: 1.0,
-            height: 1.0
-        }
-    },
-    GLOBE: {
-        name: 'Globe',
-        ranges: {
-            size: [0.1, 2],
-            scale: [0.1, 2.0],
-            spacing: [0, 20],
-            rotation: [0, 360]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            size: 1.0,
-            scale: 1.0,
-            spacing: 0,
-            rotation: 0
-        }
-    },
-    NET: {
-        name: 'Net',
-        ranges: {
-            points: [1, 20],
-            maxDistance: [10, 50],
-            spacing: [10, 50],
-            scale: [0.1, 2.0]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            points: 10,
-            maxDistance: 20,
-            spacing: 15,
-            scale: 1.0
-        }
-    },
-    RINGS: {
-        name: 'Rings',
-        ranges: {
-            scale: [0.1, 2.0],
-            spacing: [0, 20],
-            rotation: [0, 360],
-            size: [0.1, 2.0]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            scale: 1.0,
-            spacing: 0,
-            rotation: 0,
-            size: 1.0
-        }
-    },
-    CELLS: {
-        name: 'Cells',
-        ranges: {
-            scale: [0.5, 2.0],
-            color: [0x000000, 0xffffff],
-            backgroundColor: [0x000000, 0xffffff],
-            size: [0.5, 3.0],
-            speed: [0.5, 5.0]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            scale: 1.0,
-            color: 0x2451FF,
-            backgroundColor: 0x121212,
-            size: 1.5,
-            speed: 1.0
-        }
-    },
-    TRUNK: {
-        name: 'Trunk',
-        ranges: {
-            scale: [0.1, 2.0],
-            spacing: [10, 100],
-            speed: [0.1, 5.0]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            scale: 1.0,
-            spacing: 30,
-            speed: 1.0
-        }
-    },
-    TOPOLOGY: {
-        name: 'Topology',
-        ranges: {
-            scale: [0.1, 2.0],
-            spacing: [10, 100],
-            speed: [0.1, 5.0],
-            points: [1, 20]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            scale: 1.0,
-            spacing: 30,
-            speed: 1.0,
-            points: 10
-        }
-    },
-    DOTS: {
-        name: 'Dots',
-        ranges: {
-            scale: [0.1, 2.0],
-            spacing: [10, 100],
-            size: [0.1, 3.0],
-            speed: [0.1, 5.0]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            scale: 1.0,
-            spacing: 30,
-            size: 1.0,
-            speed: 1.0
-        }
-    },
-    HALO: {
-        name: 'Halo',
-        ranges: {
-            size: [0.1, 2.0],
-            scale: [0.1, 2.0],
-            spacing: [0, 20],
-            rotation: [0, 360]
-        },
-        colors: ['color', 'backgroundColor'],
-        defaults: {
-            size: 1.0,
-            scale: 1.0,
-            spacing: 0,
-            rotation: 0
-        }
-    }
-};
-
-// Helper functions for effect configuration
-function getEffectConfig(effectName) {
-    return VANTA_CONFIG[effectName] || null;
-}
-
-function getEffectDefaults(effectName) {
-    const config = getEffectConfig(effectName);
-    return config ? config.defaults : {};
-}
-
-function getEffectRanges(effectName) {
-    const config = getEffectConfig(effectName);
-    return config ? config.ranges : {};
-}
-
-function getEffectColors(effectName) {
-    const config = getEffectConfig(effectName);
-    return config ? config.colors : [];
-}
-
-// Export the configuration and helper functions
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        VANTA_CONFIG,
-        getEffectConfig,
-        getEffectDefaults,
-        getEffectRanges,
-        getEffectColors
-    };
-} 
+        highlightColor: { type: "color", default: "#ffc300" },
+        midtoneColor: { type: "color", default: "#ff1f00" },
+        lowlightColor: { type: "color", default: "#2d00ff" },
+        baseColor: { type: "color", default: "#ffebeb" },
+        blurFactor: { type: "slider", min: 0, max: 1, step: 0.01, default: 0.625 },
+        zoom: { type: "slider", min: 0, max: 2, step: 0.01, default: 0.31 },
+        speed: { type: "slider", min: 0, max: 2, step: 0.01, default: 0.2 },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 }, // fixed minimum, no need to expose
+        minWidth: { type: "hidden", default: 200 }
+      },
+      WAVES: {
+        color: { type: "color", default: "#005588" }, // rgb(0, 85, 136)
+        shininess: { type: "slider", min: 0, max: 100, step: 1, default: 20 },
+        waveHeight: { type: "slider", min: 0, max: 100, step: 1, default: 37.5 },
+        waveSpeed: { type: "slider", min: 0, max: 2, step: 0.01, default: 1 },
+        zoom: { type: "slider", min: 0, max: 2, step: 0.01, default: 0.3182 },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 },
+        scale: { type: "hidden", default: 1 },
+        scaleMobile: { type: "hidden", default: 1 }
+      },
+      CLOUDS: {
+        backgroundColor: { type: "color", default: "#000000" },
+        skyColor: { type: "color", default: "#000000" },
+        cloudColor: { type: "color", default: "#0058fa" },
+        cloudShadowColor: { type: "color", default: "#000000" },
+        sunColor: { type: "color", default: "#000000" },
+        sunGlareColor: { type: "color", default: "#000000" },
+        sunlightColor: { type: "color", default: "#000000" },
+        speed: { type: "slider", min: 0, max: 2, step: 0.01, default: 0.7 },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 }
+      },
+      GLOBE: {
+        backgroundColor: { type: "color", default: "#000000" },
+        color: { type: "color", default: "#ffffff" },
+        color2: { type: "color", default: "#ff0000" },
+        size: { type: "slider", min: 0, max: 5, step: 0.1, default: 0.5 },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 },
+        scale: { type: "hidden", default: 1 },
+        scaleMobile: { type: "hidden", default: 1 }
+      },
+      NET: {
+        color: { type: "color", default: "#ff3f81" },             // rgb(255, 63, 129)
+        backgroundColor: { type: "color", default: "#23153c" },   // rgb(35, 21, 60)
+        points: { type: "slider", min: 0, max: 50, step: 1, default: 24 }, // 47.3684% mapped approx to 24
+        maxDistance: { type: "slider", min: 0, max: 50, step: 1, default: 16 }, // 33.3333% ≈ 16
+        spacing: { type: "slider", min: 0, max: 100, step: 1, default: 50 },
+        showDots: { type: "checkbox", default: true },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 },
+        scale: { type: "hidden", default: 1 },
+        scaleMobile: { type: "hidden", default: 1 }
+      },
+      CELLS: {
+        color1: { type: "color", default: "#008c8c" },       // rgb(0, 140, 140)
+        color2: { type: "color", default: "#f2e735" },       // rgb(242, 231, 53)
+        size: { type: "slider", min: 0, max: 10, step: 0.1, default: 2.7 },  // ~27.0833%
+        speed: { type: "slider", min: 0, max: 2, step: 0.01, default: 0.2 },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 },
+        scale: { type: "hidden", default: 1 }
+      },
+      TOPOLOGY: {
+        backgroundColor: { type: "color", default: "#002222" }, // rgb(0, 34, 34)
+        color: { type: "color", default: "#89964e" },           // rgb(137, 150, 78)
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 },
+        scale: { type: "hidden", default: 1 },
+        scaleMobile: { type: "hidden", default: 1 }
+      },
+      RINGS: {
+        color: { type: "color", default: "#88ff00" },               // rgb(136, 255, 0)
+        backgroundColor: { type: "color", default: "#202428" },     // rgb(32, 36, 40)
+        backgroundAlpha: { type: "slider", min: 0, max: 1, step: 0.01, default: 1.0 },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 },
+        scale: { type: "hidden", default: 1 },
+        scaleMobile: { type: "hidden", default: 1 }
+      },
+      HALO: {
+        backgroundColor: { type: "color", default: "#131a43" },         // rgb(19, 26, 67)
+        baseColor: { type: "color", default: "#001a59" },               // rgb(0, 26, 89)
+        size: { type: "slider", min: 0, max: 5, step: 0.01, default: 1.0 },
+        amplitudeFactor: { type: "slider", min: 0, max: 2, step: 0.01, default: 0.66 },
+        xOffset: { type: "slider", min: -2, max: 2, step: 0.01, default: 0.5 },
+        yOffset: { type: "slider", min: -2, max: 2, step: 0.01, default: 0.5 },
+        mouseControls: { type: "checkbox", default: true },
+        touchControls: { type: "checkbox", default: true },
+        gyroControls: { type: "checkbox", default: false },
+        minHeight: { type: "hidden", default: 200 },
+        minWidth: { type: "hidden", default: 200 }
+      } 
+  }
+  

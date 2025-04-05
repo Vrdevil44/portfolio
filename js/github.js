@@ -100,7 +100,7 @@ function createRepoCard(repo, index) {
             </a>
         </div>
     `;
-
+    
     return card;
 }
 
@@ -136,7 +136,7 @@ function createActivityItem(event, index) {
             action = `Acted on`;
             target = event.repo.name;
     }
-
+    
     const date = new Date(event.created_at);
     const timeAgo = getTimeAgo(date);
 
@@ -149,7 +149,7 @@ function createActivityItem(event, index) {
             <span class="github-activity-time">${timeAgo}</span>
         </div>
     `;
-
+    
     return item;
 }
 
@@ -226,10 +226,10 @@ function displayErrorMessage() {
         if (container) {
             container.innerHTML = `
                 <div class="error-message">
-                    <i class="fas fa-exclamation-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
                     <p>Error loading GitHub data. Please try again later.</p>
-                </div>
-            `;
+        </div>
+    `;
         }
     });
 }

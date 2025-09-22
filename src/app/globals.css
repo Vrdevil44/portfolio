@@ -35,12 +35,106 @@
   :root { --motion-scale: 0.2; }
 }
 
+/* Theme variants (apply as class on <html>) */
+html.theme-tron {
+  --bg-start: #050810;
+  --bg-end: #0b1020;
+  --text-primary: #ffffff;
+  --text-secondary: #b8c2ff;
+  --primary: #1e3aff;
+  --accent: #8a2be2;
+  --highlight: #00e5ff;
+  --surface-rgba: 12 18 36;
+  --surface-opacity: 0.35;
+  --background:
+    radial-gradient(1200px 600px at 50% -200px, rgba(30, 58, 255, 0.18), transparent 60%),
+    radial-gradient(900px 500px at 80% 10%, rgba(138, 43, 226, 0.12), transparent 60%),
+    linear-gradient(180deg, var(--bg-start), var(--bg-end));
+}
+
+html.theme-aurora {
+  --bg-start: #050810;
+  --bg-end: #0b1020;
+  --text-primary: #ffffff;
+  --text-secondary: #c8d0ff;
+  --primary: #1e3aff;
+  --accent: #8a2be2;
+  --highlight: #00e5ff;
+  --surface-rgba: 12 18 36;
+  --surface-opacity: 0.32;
+  --background:
+    radial-gradient(60vmax 40vmax at 15% 20%, color-mix(in oklab, #00e5ff 22%, transparent), transparent 60%),
+    radial-gradient(70vmax 50vmax at 85% 25%, color-mix(in oklab, #8a2be2 22%, transparent), transparent 60%),
+    radial-gradient(55vmax 45vmax at 50% 85%, color-mix(in oklab, #1e3aff 20%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--bg-start), var(--bg-end));
+}
+
+html.theme-grid {
+  --bg-start: #050810;
+  --bg-end: #0b1020;
+  --text-primary: #ffffff;
+  --text-secondary: #b8c2ff;
+  --primary: #1e3aff;
+  --accent: #8a2be2;
+  --highlight: #00e5ff;
+  --surface-rgba: 12 18 36;
+  --surface-opacity: 0.30;
+  --background:
+    radial-gradient(1000px 500px at 50% -100px, rgba(30, 58, 255, 0.18), transparent 60%),
+    repeating-linear-gradient(to right, rgba(138, 43, 226, 0.10) 0px, rgba(138, 43, 226, 0.10) 1px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(to bottom, rgba(30, 58, 255, 0.10) 0px, rgba(30, 58, 255, 0.10) 1px, transparent 1px, transparent 60px),
+    linear-gradient(180deg, var(--bg-start), var(--bg-end));
+}
+
+html.theme-light {
+  --bg-start: #f8fafc; /* slate-50 */
+  --bg-end: #eaeef8;
+  --text-primary: #0b1020;
+  --text-secondary: #334155;
+  --primary: #1e3aff;
+  --accent: #8a2be2;
+  --highlight: #2563eb;
+  --surface-rgba: 255 255 255;
+  --surface-opacity: 0.65;
+  --background:
+    radial-gradient(1200px 600px at 50% -200px, rgba(37, 99, 235, 0.10), transparent 60%),
+    linear-gradient(180deg, var(--bg-start), var(--bg-end));
+  --foreground: var(--text-primary);
+}
+
+/* Animated backgrounds for specific themes */
+@keyframes aurora-pan {
+  0% { background-position: 0% 0%, 100% 0%, 0% 100%, 0 0; }
+  50% { background-position: 50% 40%, 60% 30%, 40% 70%, 0 0; }
+  100% { background-position: 0% 0%, 100% 0%, 0% 100%, 0 0; }
+}
+
+@keyframes grid-pan {
+  0% { background-position: 50% -100px, 0 0, 0 0, 0 0; }
+  100% { background-position: 50% -120px, 60px 0, 0 60px, 0 0; }
+}
+
+html.theme-aurora body {
+  background-size: 180% 180%, 180% 180%, 180% 180%, auto;
+  animation: aurora-pan calc(90s / max(var(--motion-scale), 0.01)) linear infinite;
+}
+
+html.theme-grid body {
+  background-size: auto, 60px 60px, 60px 60px, auto;
+  animation: grid-pan calc(40s / max(var(--motion-scale), 0.01)) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-aurora body,
+  html.theme-grid body { animation: none; }
+}
+
 html, body {
   height: 100%;
 }
 
 body {
-  background: var(--background);
+  background: transparent; /* let Vanta render */
   color: var(--foreground);
 }
 
@@ -54,6 +148,41 @@ body {
   box-shadow:
     0 10px 30px rgba(30, 58, 255, 0.12),
     0 6px 18px rgba(138, 43, 226, 0.08);
+}
+
+/* Subtle shining reflection for glass elements */
+.glass-shine {
+  position: relative;
+  overflow: hidden;
+}
+.glass-shine::before {
+  content: "";
+  position: absolute;
+  inset: -200% -50% auto -50%;
+  height: 300%;
+  transform: rotate(20deg);
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, white 0%, transparent),
+    color-mix(in oklab, white 10%, transparent) 20%,
+    color-mix(in oklab, white 35%, transparent) 40%,
+    color-mix(in oklab, white 10%, transparent) 60%,
+    color-mix(in oklab, white 0%, transparent) 80%
+  );
+  opacity: 0.15;
+  animation: shine-pan calc(6s / max(var(--motion-scale), 0.01)) linear infinite;
+  pointer-events: none;
+}
+
+/* Stronger blur helper for readability */
+.backdrop-blur-xl {
+  backdrop-filter: blur(calc(var(--blur) * 1.25));
+  -webkit-backdrop-filter: blur(calc(var(--blur) * 1.25));
+}
+
+@keyframes shine-pan {
+  0% { transform: translateX(-60%) rotate(20deg); }
+  100% { transform: translateX(60%) rotate(20deg); }
 }
 
 .focus-ring:focus-visible {

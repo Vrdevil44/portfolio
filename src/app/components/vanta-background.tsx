@@ -14,7 +14,15 @@ type VantaEffectId =
   | "RINGS"
   | "CLOUDS"
   | "TRUNK"
-  | "TOPOLOGY";
+  | "TOPOLOGY"
+  | "DOTS";
+
+type VantaInstance = {
+  destroy: () => void;
+  setOptions?: (options: Record<string, unknown>) => void;
+};
+
+type VantaCreate = (options: Record<string, unknown>) => VantaInstance;
 
 export type VantaBackgroundProps = {
   effect: VantaEffectId;
@@ -23,7 +31,7 @@ export type VantaBackgroundProps = {
   style?: CSSProperties;
 };
 
-const loaders: Record<VantaEffectId, () => Promise<any>> = {
+const loaders: Record<VantaEffectId, () => Promise<{ default: VantaCreate }>> = {
   BIRDS: () => import("vanta/dist/vanta.birds.min"),
   FOG: () => import("vanta/dist/vanta.fog.min"),
   NET: () => import("vanta/dist/vanta.net.min"),
@@ -40,8 +48,8 @@ const loaders: Record<VantaEffectId, () => Promise<any>> = {
 
 export default function VantaBackground({ effect, options, className, style }: VantaBackgroundProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [instance, setInstance] = useState<any>(null);
-  const instanceRef = useRef<any>(null);
+  const [instance, setInstance] = useState<VantaInstance | null>(null);
+  const instanceRef = useRef<VantaInstance | null>(null);
   const optionsRef = useRef<Record<string, unknown> | undefined>(options);
   const mountedRef = useRef<boolean>(false);
 
@@ -56,8 +64,9 @@ export default function VantaBackground({ effect, options, className, style }: V
         const canvases = el.querySelectorAll("canvas");
         canvases.forEach(c => {
           try {
-            const gl = (c as HTMLCanvasElement).getContext("webgl2") || (c as HTMLCanvasElement).getContext("webgl") || (c as HTMLCanvasElement).getContext("experimental-webgl");
-            const ext = (gl && (gl as any).getExtension) ? (gl as any).getExtension("WEBGL_lose_context") : null;
+            const canvas = c as HTMLCanvasElement;
+            const gl = (canvas.getContext("webgl2") || canvas.getContext("webgl") || canvas.getContext("experimental-webgl")) as (WebGL2RenderingContext | WebGLRenderingContext | null);
+            const ext = gl ? (gl.getExtension("WEBGL_lose_context") as { loseContext?: () => void } | null) : null;
             if (ext && typeof ext.loseContext === "function") ext.loseContext();
           } catch { /* ignore */ }
           try { c.remove(); } catch { /* ignore */ }
@@ -74,11 +83,11 @@ export default function VantaBackground({ effect, options, className, style }: V
   useEffect(() => {
     (async () => {
       try {
-        (window as any).THREE = THREE;
+        (globalThis as unknown as { THREE?: typeof THREE }).THREE = THREE;
         const mod = await import("three/examples/jsm/misc/GPUComputationRenderer.js");
-        const GPGPU = (mod as any).GPUComputationRenderer || (mod as any).default;
-        (THREE as any).GPUComputationRenderer = GPGPU;
-        (window as any).GPUComputationRenderer = GPGPU;
+        const GPGPU = (mod as { GPUComputationRenderer?: unknown; default?: unknown }).GPUComputationRenderer ?? (mod as { default?: unknown }).default;
+        (THREE as unknown as { GPUComputationRenderer?: unknown }).GPUComputationRenderer = GPGPU;
+        (globalThis as unknown as { GPUComputationRenderer?: unknown }).GPUComputationRenderer = GPGPU;
       } catch { /* ignore */ }
       try {
         await import("p5");
@@ -103,21 +112,23 @@ export default function VantaBackground({ effect, options, className, style }: V
       }
       if (!el) return;
       if (typeof window !== "undefined") {
-        (window as any).THREE = THREE;
-        if (effect === "BIRDS") {
+        (globalThis as unknown as { THREE?: typeof THREE }).THREE = THREE;
+        if (effect === "BIRDS" || effect === "DOTS") {
           try {
             const mod = await import("three/examples/jsm/misc/GPUComputationRenderer.js");
-            const GPGPU = (mod as any).GPUComputationRenderer || (mod as any).default;
-            (THREE as any).GPUComputationRenderer = GPGPU;
-            (window as any).GPUComputationRenderer = GPGPU;
+            const GPGPU = (mod as { GPUComputationRenderer?: unknown; default?: unknown }).GPUComputationRenderer ?? (mod as { default?: unknown }).default;
+            (THREE as unknown as { GPUComputationRenderer?: unknown }).GPUComputationRenderer = GPGPU;
+            (globalThis as unknown as { GPUComputationRenderer?: unknown }).GPUComputationRenderer = GPGPU;
           } catch { /* ignore */ }
         }
       }
-      const create = (await loaders[effect]()).default;
+      const mod = await loaders[effect]();
+      const create = mod.default;
       const extra: Record<string, unknown> = {};
       if (effect === "TRUNK" || effect === "TOPOLOGY") {
-        const p5 = (await import("p5")).default;
-        extra.p5 = (p5 as unknown as { default?: any }) || p5;
+        const p5mod = await import("p5");
+        const p5 = (p5mod as { default?: unknown }).default ?? p5mod;
+        extra.p5 = p5 as unknown;
       }
       // Clean up any previous canvases/effects before creating new
       destroyInstance();

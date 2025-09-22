@@ -7,7 +7,9 @@ type EffectId = "BIRDS" | "FOG" | "NET" | "WAVES" | "GLOBE" | "HALO" | "CELLS" |
 
 const storageKey = "portfolio.visuals";
 
-type OptionsByEffect = Partial<Record<EffectId, Record<string, any>>>;
+type VisualOptions = Record<string, unknown>;
+
+type OptionsByEffect = Partial<Record<EffectId, VisualOptions>>;
 
 type VisualState = {
   effect: EffectId;
@@ -147,9 +149,9 @@ export default function VisualsManager() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const effectOptions = useMemo(() => ({
+  const effectOptions = useMemo<VisualOptions>(() => ({
     ...(defaultsByEffect[state.effect] || {}),
-    ...((state.optionsByEffect[state.effect] as Record<string, any>) || {}),
+    ...((state.optionsByEffect[state.effect] as VisualOptions) || {}),
   }), [state.effect, state.optionsByEffect]);
 
   const [mountKey, setMountKey] = useState(0);
@@ -168,7 +170,7 @@ export default function VisualsManager() {
     setMountKey(prev => prev + 1);
   }
 
-  function updateOptForCurrent(key: string, value: any) {
+  function updateOptForCurrent(key: string, value: unknown) {
     setState(prev => ({
       ...prev,
       optionsByEffect: {
@@ -679,12 +681,11 @@ function hexFrom(n: number): string {
 }
 
 function randomizeFor(effect: EffectId, setState: React.Dispatch<React.SetStateAction<VisualState>>, after?: () => void) {
-  const base = defaultsByEffect[effect] || {};
-  const next: Record<string, any> = { ...base };
+  const base: VisualOptions = defaultsByEffect[effect] || {};
+  const next: VisualOptions = { ...base };
   Object.keys(base).forEach(k => {
-    const v = (base as any)[k];
+    const v = base[k];
     if (typeof v === "number") {
-      // randomize within a reasonable range
       if (k.toLowerCase().includes("color")) {
         next[k] = Math.floor(Math.random() * 0xffffff);
       } else if (k.toLowerCase().includes("alpha")) {

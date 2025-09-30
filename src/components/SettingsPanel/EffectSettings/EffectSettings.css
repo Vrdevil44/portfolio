@@ -1,0 +1,317 @@
+.effect-settings {
+  padding: 20px;
+  color: var(--color-text);
+}
+
+.setting-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--surface-card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.setting-group:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.setting-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.setting-group label span {
+  font-size: 0.9em;
+  color: var(--color-text-muted);
+}
+
+.setting-group input[type="number"],
+.setting-group input[type="text"],
+.setting-group input[type="range"],
+.setting-group select {
+  padding: 0.5rem;
+  border: var(--glass-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  background: var(--surface-control-bg);
+  color: var(--color-text);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  transition: all 0.2s ease;
+}
+
+/* Number input tweaks for better contrast and spacing */
+.setting-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+.setting-group input[type="number"]::-webkit-outer-spin-button,
+.setting-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Checkbox styling */
+.setting-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--surface-control-bg);
+  border: var(--glass-border);
+  accent-color: var(--role-primary);
+}
+
+.setting-group input[type="range"] {
+  -webkit-appearance: none;
+  height: 6px;
+  background: color-mix(in oklab, var(--role-primary), transparent 85%);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.setting-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--role-primary), transparent 70%);
+}
+
+.setting-group input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.setting-group input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--role-primary), transparent 70%);
+}
+
+.setting-group input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+.background-alpha-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.background-alpha-control input[type="range"] {
+  flex: 1;
+}
+
+.background-alpha-value {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: right;
+}
+
+.color-input-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.color-input-group input[type="color"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+}
+
+.color-input-group input[type="color"]:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.color-input-group input[type="text"] {
+  flex: 1;
+  font-family: monospace;
+}
+
+.setting-group input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+  accent-color: rgba(255, 255, 255, 0.8);
+}
+
+.effect-select {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+}
+
+.setting-group input[type="number"]:focus,
+.setting-group input[type="text"]:focus,
+.setting-group select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.setting-group input[type="number"]:hover,
+.setting-group input[type="text"]:hover,
+.setting-group select:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.setting-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+}
+
+.setting-section summary {
+  padding: 15px 20px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  list-style: none;
+  position: relative;
+  color: white;
+}
+
+.setting-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.setting-section summary::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  transition: transform 0.3s ease;
+}
+
+.setting-section[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.setting-section summary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.setting-content {
+  padding: 15px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.effect-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.effect-button {
+  background: var(--surface-card-bg);
+  border: var(--glass-border);
+  border-radius: 5px;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 10px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.effect-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(169,112,255,0.25);
+}
+
+.effect-button.selected {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+  font-weight: bold;
+  box-shadow: 0 0 14px rgba(169,112,255,0.35);
+}
+
+.color-mode-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  background: var(--surface-control-bg);
+  border: var(--glass-border);
+  color: inherit;
+}
+
+.slider-input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  outline: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .effect-type-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .effect-type-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.setting-button {
+  width: 100%;
+  padding: 12px;
+  background: var(--surface-card-bg);
+  border: var(--glass-border);
+  border-radius: 8px;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+}
+
+.setting-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.setting-button:active {
+  transform: translateY(1px);
+} 

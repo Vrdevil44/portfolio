@@ -1,0 +1,149 @@
+.nav-container {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 20px);
+  left: 0;
+  transform: translateX(calc(-100% + 80px)); /* Only show VD tab */
+  z-index: 1001; /* top ui layer under settings icon */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: max-content;
+  min-width: 800px; /* Make it longer */
+  padding-left: 20px; /* Add padding to offset from screen edge */
+}
+
+.nav-container.open {
+  transform: translateX(0); /* Align with left edge */
+}
+
+.navigation-panel {
+  background: var(--surface-panel-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: var(--glass-border);
+  border-radius: 12px;
+  box-shadow: var(--elevation-2), 0 0 20px 4px rgba(169, 112, 255, 0.18);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-links li {
+  height: 100%;
+  display: flex;
+}
+
+.nav-links li:first-child a {
+  border-radius: 12px 0 0 12px;
+}
+
+.nav-links a {
+  height: 100%;
+  color: var(--color-text);
+  text-decoration: none;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  opacity: 0.8;
+  white-space: nowrap;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-links a:hover {
+  background: color-mix(in oklab, var(--role-secondary), transparent 75%);
+  opacity: 1;
+  box-shadow: 0 0 12px color-mix(in oklab, var(--role-secondary), transparent 80%);
+}
+
+.nav-links a.active {
+  background: color-mix(in oklab, var(--role-primary), transparent 70%);
+  opacity: 1;
+  font-weight: 500;
+  border: 1px solid color-mix(in oklab, var(--role-primary), white 70%);
+  box-shadow: 0 0 15px color-mix(in oklab, var(--role-primary), transparent 85%), 0 0 18px color-mix(in oklab, var(--role-primary), transparent 80%);
+}
+
+/* Special styling for the VD tab */
+.nav-links li:last-child {
+  margin-left: auto;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.nav-links li:last-child a {
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0 12px 12px 0;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nav-links li:last-child a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .nav-container {
+    top: calc(env(safe-area-inset-top, 0px) + 10px);
+    padding-left: 10px;
+    transform: translateX(calc(-100% + 60px)); /* Smaller offset for mobile */
+    min-width: calc(100% + 20px); /* Extend slightly beyond screen */
+    width: calc(100% + 20px);
+  }
+
+  .nav-container.open {
+    transform: translateX(0);
+  }
+
+  .navigation-panel {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .navigation-panel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-links a {
+    padding: 0 12px;
+    font-size: 0.85rem;
+  }
+
+  .nav-links li:last-child {
+    width: 60px; /* Smaller width for VD tab on mobile */
+  }
+}
+
+/* Smooth scrolling for the navigation panel */
+.navigation-panel {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Active link style */
+.nav-links a.active {
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+} 

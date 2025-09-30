@@ -1,0 +1,43 @@
+.ui-button {
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.6em 1.1em;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--color-text);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  cursor: pointer;
+  transition: transform calc(120ms * var(--motion-scale)) ease, box-shadow calc(200ms * var(--motion-scale)) ease, border-color calc(200ms * var(--motion-scale)) ease;
+  box-shadow: var(--elevation-1);
+  min-height: 44px;
+}
+.ui-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: var(--elevation-2);
+}
+.ui-button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.ui-button.primary {
+  background: color-mix(in oklab, var(--role-primary), black 10%);
+  border-color: color-mix(in oklab, var(--role-primary), white 20%);
+}
+.ui-button.secondary {
+  border-color: color-mix(in oklab, var(--role-secondary), white 20%);
+}
+.ui-button.ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .ui-button {
+    background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+  }
+}
+
+

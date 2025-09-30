@@ -1,0 +1,126 @@
+.font-settings {
+  padding: 1rem;
+}
+
+.font-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.font-section h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.section-description {
+  margin: 0 0 1.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.setting-group {
+  margin-bottom: 1.25rem;
+}
+
+.setting-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.setting-group select,
+.setting-group input[type="color"],
+.setting-group input[type="number"],
+.setting-group input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--surface-control-bg);
+  border: var(--glass-border);
+  border-radius: 8px;
+  color: var(--color-text);
+}
+
+.setting-group input[type="range"] {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.setting-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--role-primary);
+}
+
+.gradient-settings,
+.glow-settings {
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.font-preview {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.accent-preview {
+  font-family: var(--accent-font-family);
+  font-weight: var(--accent-font-weight);
+  color: var(--accent-font-color);
+  letter-spacing: var(--accent-letter-spacing);
+}
+
+.accent-preview.has-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.accent-preview.has-glow {
+  text-shadow: var(--accent-glow);
+}
+
+.heading-preview {
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  color: var(--heading-font-color);
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+.body-preview {
+  font-family: var(--body-font-family);
+  font-weight: var(--body-font-weight);
+  color: var(--body-font-color);
+  letter-spacing: var(--body-letter-spacing);
+  line-height: var(--body-line-height);
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .setting-group {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .setting-group label {
+    margin-bottom: 0;
+  }
+
+  .gradient-settings,
+  .glow-settings {
+    margin-left: 150px;
+  }
+} 

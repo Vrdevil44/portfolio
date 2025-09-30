@@ -1,0 +1,106 @@
+.hero {
+  position: relative;
+  z-index: 2; /* above overlay */
+  width: 100%;
+  padding: clamp(24px, 6vw, 48px) var(--container-pad) clamp(48px, 8vw, 80px);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 520px) 1fr;
+  gap: clamp(16px, 4vw, 48px);
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-media {
+  position: relative;
+}
+
+.hero-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  overflow: visible;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: var(--glass-border);
+  background: var(--surface-panel-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--elevation-2);
+}
+
+.hero-image.placeholder {
+  background: radial-gradient(60% 60% at 50% 40%, rgba(255,255,255,0.15), rgba(255,255,255,0.04));
+}
+
+.glass-card {
+  position: absolute;
+  width: clamp(160px, 46%, 260px);
+  height: clamp(96px, 28%, 160px);
+  background: var(--surface-card-bg);
+  border: var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--elevation-2);
+}
+
+.card-top-right {
+  top: 10%;
+  right: -4%;
+}
+
+.card-bottom-left {
+  bottom: -6%;
+  left: -4%;
+}
+
+.hero-content {
+  position: relative;
+}
+
+.hero-heading {
+  margin: 0 0 12px;
+  font-size: var(--fs-xl);
+  line-height: 1.1;
+  color: var(--color-text);
+  text-shadow: 0 0 24px rgba(0,0,0,0.25);
+}
+
+.hero-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--fs-lg);
+  margin: 0 0 20px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.hero-glow {
+  position: absolute;
+  inset: -20% -10% auto auto;
+  width: 50%;
+  height: 60%;
+  border-radius: 50%;
+  filter: blur(calc(var(--glow-intensity, 24px) * 1.2));
+  pointer-events: none;
+  background: radial-gradient(closest-side, var(--glow-color, #a970ff), transparent 70%);
+  opacity: 0.6;
+}
+
+@media (max-width: 960px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .card-top-right { top: -8%; right: 4%; }
+  .card-bottom-left { bottom: -8%; left: 4%; }
+}

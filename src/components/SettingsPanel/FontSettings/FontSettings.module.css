@@ -1,0 +1,116 @@
+.fontSettings {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.fontSection {
+  background: var(--surface-2);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.fontSection h3 {
+  margin: 0 0 1rem;
+  color: var(--text-1);
+  font-size: 1.25rem;
+}
+
+.previewSection {
+  background: var(--surface-1);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.preview {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.controls {
+  display: grid;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  color: var(--text-2);
+  font-size: 0.9rem;
+}
+
+.inputGroup select,
+.inputGroup input[type="range"],
+.inputGroup input[type="color"] {
+  padding: 0.5rem;
+  border: 1px solid var(--surface-3);
+  border-radius: 4px;
+  background: var(--surface-1);
+  color: var(--text-1);
+}
+
+.inputGroup input[type="color"] {
+  height: 40px;
+  padding: 2px;
+}
+
+.inputGroup input[type="range"] {
+  cursor: pointer;
+}
+
+.inputGroup span {
+  color: var(--text-2);
+  font-size: 0.9rem;
+}
+
+.effectsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkboxGroup label {
+  color: var(--text-1);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.gradientInput {
+  padding: 0.5rem;
+  border: 1px solid var(--surface-3);
+  border-radius: 4px;
+  background: var(--surface-1);
+  color: var(--text-1);
+  width: 100%;
+  font-family: monospace;
+}
+
+@media (min-width: 768px) {
+  .controls {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .effectsGroup {
+    grid-column: 1 / -1;
+  }
+} 

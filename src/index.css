@@ -1,0 +1,200 @@
+:root {
+  /* Base typography */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Design tokens */
+  --color-bg: #0b0f1a;
+  --color-surface: rgba(255, 255, 255, 0.06);
+  --color-text: #e6e9f0;
+  --color-text-muted: rgba(230, 233, 240, 0.7);
+  --color-primary: #6a00ff;
+  --color-secondary: #00e0ff;
+  --overlay-angle: 135deg;
+
+  /* Radii, blur, elevation, noise, motion */
+  --radius: 16px;
+  --radius-lg: 24px;
+  --blur: 16px;
+  --elevation-1: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --elevation-2: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --elevation-3: 0 16px 64px rgba(0, 0, 0, 0.45);
+  --noise-opacity: 0.08;
+  --motion-scale: 1; /* Scales durations/distances for motion */
+
+  /* Derived tokens computed here (theme engine can override) */
+  --overlay-rgba-1: rgba(106, 0, 255, 0.6);
+  --overlay-rgba-2: rgba(0, 224, 255, 0.6);
+  --overlay: linear-gradient(var(--overlay-angle), var(--overlay-rgba-1), var(--overlay-rgba-2));
+  --shadow-color: 0, 0, 0; /* used for rgba shadow construction */
+  --focus-ring: 0 0 0 3px rgba(0, 224, 255, 0.35);
+  --focus-ring-strong: 0 0 0 3px rgba(255, 255, 255, 0.6);
+
+  /* Component archetypes (parents) */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+  --surface-panel-bg: var(--glass-bg);
+  --surface-card-bg: rgba(255, 255, 255, 0.1);
+  --surface-control-bg: rgba(255, 255, 255, 0.12);
+
+  /* Responsive tokens */
+  --bp-xs: 480px;
+  --bp-sm: 640px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --container-max: 1200px;
+  --container-pad: clamp(16px, 4vw, 32px);
+
+  --fs-sm: clamp(12px, 1.6vw, 14px);
+  --fs-md: clamp(14px, 1.8vw, 16px);
+  --fs-lg: clamp(18px, 3vw, 22px);
+  --fs-xl: clamp(28px, 6vw, 56px);
+
+  /* System */
+  color-scheme: dark;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  overscroll-behavior-y: none;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--color-text);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  cursor: pointer;
+  transition: transform calc(120ms * var(--motion-scale)) ease, box-shadow calc(200ms * var(--motion-scale)) ease, border-color calc(200ms * var(--motion-scale)) ease;
+  box-shadow: var(--elevation-1);
+}
+button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: var(--elevation-2);
+}
+button:active {
+  transform: translateY(0);
+}
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-scale: 0.01;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Light scheme override (keeps variables consistent) */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --color-bg: #ffffff;
+    --color-surface: rgba(0, 0, 0, 0.04);
+    --color-text: #213547;
+    --color-text-muted: rgba(33, 53, 71, 0.7);
+    --overlay-rgba-1: rgba(106, 0, 255, 0.18);
+    --overlay-rgba-2: rgba(0, 224, 255, 0.18);
+  }
+}
+
+/* Glassmorphism utility & fallback */
+.glass {
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  box-shadow: var(--elevation-1);
+}
+
+/* Unified surface parent and variants */
+.surface {
+  background: var(--surface-card-bg);
+  border: var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: var(--elevation-1);
+}
+.surface--panel { background: var(--surface-panel-bg); }
+.surface--card { background: var(--surface-card-bg); }
+.surface--control { background: var(--surface-control-bg); }
+.surface.elev-1 { box-shadow: var(--elevation-1); }
+.surface.elev-2 { box-shadow: var(--elevation-2); }
+.surface.elev-3 { box-shadow: var(--elevation-3); }
+.surface.radius-lg { border-radius: var(--radius-lg); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    /* Fallback to gradient or solid */
+    background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+  }
+}
+
+/* Background overlay token (used by ThemeContext); provide fallback */
+.background-overlay {
+  background: var(--bg-overlay, var(--overlay));
+}
+
+/* Global focus styles for keyboard users */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* High-contrast support helper */
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: auto;
+  }
+}

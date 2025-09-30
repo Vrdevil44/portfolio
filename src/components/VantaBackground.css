@@ -1,0 +1,51 @@
+.vanta-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* base layer */
+}
+
+.vanta-error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+}
+
+.vanta-error p {
+  background: rgba(255, 0, 0, 0.1);
+  padding: 15px 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  max-width: 400px;
+}
+
+@media screen and (max-width: 768px) {
+  .vanta-background {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+
+  .vanta-error {
+    height: 100vh;
+    height: -webkit-fill-available;
+    padding: 15px;
+  }
+
+  .vanta-error p {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+} 

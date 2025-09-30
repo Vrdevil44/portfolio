@@ -1,0 +1,543 @@
+:root {
+  --bg-overlay: var(--overlay);
+  
+  /* Font variables */
+  --primary-font: 'Poppins', sans-serif;
+  --secondary-font: 'Inter', sans-serif;
+  --primary-font-weight: 600;
+  --secondary-font-weight: 400;
+  --primary-font-color: var(--color-text);
+  --secondary-font-color: var(--color-text-muted);
+  --letter-spacing: 0px;
+  --line-height: 1.5;
+  --primary-font-gradient: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--secondary-font);
+  letter-spacing: var(--letter-spacing);
+  line-height: var(--line-height);
+}
+
+h1, h2, h3, h4, h5, h6, .primary-font {
+  font-family: var(--primary-font);
+  font-weight: var(--primary-font-weight);
+  color: var(--primary-font-color);
+}
+
+.gradient-text {
+  background: var(--primary-font-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+
+#root {
+  position: relative;
+  display: block; /* avoid vertical centering that hides top content */
+}
+
+/* Background Layers */
+/* Removed unused static background layer to prevent visual obstruction */
+
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; /* above Vanta, below UI */
+  transition: all 0.3s ease;
+  pointer-events: none; /* never block UI */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.landing-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  z-index: 2; /* UI above overlay */
+  max-width: var(--container-max);
+  margin: 0 auto;
+  /* Clear the fixed navbar and settings icon area */
+  padding-top: calc(env(safe-area-inset-top, 0px) + clamp(72px, 10vw, 96px));
+}
+
+/* Settings Icon */
+.settings-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1002; /* above navbar and panel */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  width: clamp(40px, 4vw, 48px);
+  height: clamp(40px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  border: var(--glass-border, 1px solid rgba(255, 255, 255, 0.2));
+  box-shadow: var(--elevation-1);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.settings-icon.hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+.settings-icon:hover {
+  transform: rotate(180deg) scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--elevation-2);
+}
+
+.settings-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+/* Glassmorphism Side Panel */
+.side-panel {
+  position: fixed;
+  top: 20px;
+  right: -420px;
+  width: 380px;
+  height: calc(100vh - 40px);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  padding: 30px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  border: var(--glass-border, 1px solid rgba(255, 255, 255, 0.2));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-2);
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.side-panel.open {
+  right: 20px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.panel-content {
+  margin-top: 30px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s ease 0.2s;
+}
+
+.side-panel.open .panel-content {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.panel-content h2 {
+  margin-bottom: 25px;
+  color: var(--color-text);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.panel-content p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Setting Items */
+.settings-tabs {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.setting-button {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+  border: var(--glass-border, 1px solid rgba(255, 255, 255, 0.2));
+  border-radius: 12px;
+  padding: 12px 24px;
+  flex: 1;
+  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+}
+
+.setting-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.setting-button.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: var(--elevation-1);
+}
+
+/* Modal Styles */
+.settings-modal {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  margin-top: 20px;
+  border: var(--glass-border, 1px solid rgba(255, 255, 255, 0.2));
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Remove close button styles */
+.close-button {
+  display: none;
+}
+
+.modal-content {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Scrollbar Styles */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Collapsible Section Styles */
+.setting-section {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.setting-section summary {
+  padding: 15px 20px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  list-style: none;
+  position: relative;
+}
+
+.setting-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.setting-section summary::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  transition: transform 0.3s ease;
+}
+
+.setting-section[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.setting-section summary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.setting-content {
+  padding: 15px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Remove old setting-item styles */
+.setting-item {
+  display: none;
+}
+
+/* Add some decorative elements */
+.side-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  border-radius: var(--radius-lg);
+}
+
+/* Color Picker Styles */
+.color-picker-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.color-picker-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.color-picker-group label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.color-input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.color-input-group input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+}
+
+.color-input-group input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 8px;
+}
+
+.color-input-group input[type="color"]::-webkit-color-swatch {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.color-text-input {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+  border: var(--glass-border, 1px solid rgba(255, 255, 255, 0.2));
+  border-radius: 8px;
+  color: var(--color-text);
+  padding: 8px 12px;
+  font-size: 14px;
+  width: 100px;
+  transition: all 0.3s ease;
+}
+
+.color-text-input:hover,
+.color-text-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+.gradient-preview {
+  width: 100%;
+  height: 60px;
+  border-radius: 12px;
+  margin-top: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Slider Styles */
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slider-group label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  outline: none;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.slider-input::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Mobile Optimization */
+@media screen and (max-width: 768px) {
+  /* Settings Icon adjustments */
+  .settings-icon {
+    top: env(safe-area-inset-top, 10px);
+    right: env(safe-area-inset-right, 10px);
+    width: clamp(36px, 10vw, 44px);
+    height: clamp(36px, 10vw, 44px);
+  }
+
+  .settings-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Improve touch targets */
+  .setting-button {
+    padding: 15px 20px;
+    font-size: 15px;
+    min-height: 44px; /* iOS minimum touch target */
+  }
+
+  /* Ensure content is visible on mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+    /* allow normal page scrolling; do not fix position */
+    position: static;
+    width: 100%;
+  }
+
+  /* Prevent text selection while interacting */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+
+  /* Enable text selection in input fields */
+  input, textarea {
+    user-select: text;
+  }
+}
+
+/* Add Safari-specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .side-panel, 
+  .settings-panel,
+  .modal-content {
+    /* Fix backdrop-filter on iOS */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* Fix 100vh issue on iOS */
+  html, 
+  body, 
+  #root {
+    height: -webkit-fill-available;
+  }
+}

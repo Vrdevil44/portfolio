@@ -28,20 +28,10 @@ const ThemeSettings = () => {
     setMotionScale,
   } = useTheme()
 
-  // Convert decimal opacity to hex
-  const toHex = (opacity) => {
-    return Math.round(opacity * 255).toString(16).padStart(2, '0')
-  }
+  // (removed local toHex helper; not needed here)
 
   // Generate background style
-  const overlayStyle = {
-    background: `linear-gradient(135deg, 
-      ${bgColor1}${toHex(overlayOpacity)}, 
-      ${bgColor2}${toHex(overlayOpacity)}
-    )`,
-    backdropFilter: `blur(${blurIntensity}px)`,
-    WebkitBackdropFilter: `blur(${blurIntensity}px)`,
-  }
+  // derived background preview would go here if needed
 
   return (
     <div className="theme-settings">

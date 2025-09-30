@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { defaultBirdsPreset, defaultFogPreset, VANTA_EFFECTS } from './SettingsPanel/EffectSettings/VantaPresets';
+import { defaultBirdsPreset, VANTA_EFFECTS } from './SettingsPanel/EffectSettings/VantaPresets';
 import './VantaBackground.css';
 
 const VantaBackground = ({ settings = defaultBirdsPreset.settings, effectType = VANTA_EFFECTS.BIRDS }) => {

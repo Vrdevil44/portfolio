@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDesign } from '../contexts/DesignContext'
 
 const outlineColor = 'rgba(255,255,255,0.9)'
@@ -84,7 +84,7 @@ export default function DesignOverlay() {
       document.removeEventListener('pointermove', handlePointerMove, true)
       document.removeEventListener('click', handleClick, true)
     }
-  }, [isDesignMode])
+  }, [isDesignMode, setHoverId, setSelectedId])
 
   if (!isDesignMode) return null
 

@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 
 const variants = {
   initial: { opacity: 0, y: 12, filter: 'blur(2px)' },
@@ -9,9 +10,9 @@ const variants = {
 const MotionPage = ({ children, keyId }) => {
   return (
     <AnimatePresence mode="wait">
-      <motion.div key={keyId} variants={variants} initial="initial" animate="enter" exit="exit">
+      <Motion.div key={keyId} variants={variants} initial="initial" animate="enter" exit="exit">
         {children}
-      </motion.div>
+      </Motion.div>
     </AnimatePresence>
   )
 }

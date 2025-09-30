@@ -37,9 +37,7 @@ export const ThemeProvider = ({ children }) => {
   const [motionScale, setMotionScale] = useState(1)
 
   // Convert decimal opacity to hex
-  const toHex = (opacity) => {
-    return Math.round(opacity * 255).toString(16).padStart(2, '0')
-  }
+  const toHex = (opacity) => Math.round(opacity * 255).toString(16).padStart(2, '0')
 
   // Generate background style
   const overlayStyle = {
@@ -61,8 +59,9 @@ export const ThemeProvider = ({ children }) => {
 
   // Update document background when colors change
   useEffect(() => {
-    document.documentElement.style.setProperty('--bg-overlay', overlayStyle.background)
-  }, [bgColor1, bgColor2, overlayOpacity])
+    const background = `linear-gradient(135deg, ${bgColor1}${toHex(overlayOpacity)}, ${bgColor2}${toHex(overlayOpacity)})`
+    document.documentElement.style.setProperty('--bg-overlay', background)
+  }, [bgColor1, bgColor2, overlayOpacity, toHex])
 
   // Push tokens to CSS variables (theme engine)
   useEffect(() => {

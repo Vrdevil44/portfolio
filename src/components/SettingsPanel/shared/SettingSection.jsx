@@ -78,6 +78,7 @@ export const ColorInput = ({ value, onChange, showHex = true }) => {
 export const Slider = ({ value, onChange, min, max, step, label, showValue = true }) => {
   return (
     <div className="slider-container">
+      {label && <span className="slider-label">{label}</span>}
       <input
         type="range"
         min={min}

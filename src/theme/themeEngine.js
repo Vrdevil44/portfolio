@@ -104,7 +104,9 @@ export function applyThemeTokens(options) {
     root.style.setProperty('--surface-panel-bg', panelBg)
     root.style.setProperty('--surface-card-bg', cardBg)
     root.style.setProperty('--surface-control-bg', controlBg)
-  } catch {}
+  } catch {
+    // no-op: gracefully skip derived surfaces if parsing fails
+  }
 }
 
 

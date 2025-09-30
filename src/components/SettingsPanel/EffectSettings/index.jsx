@@ -68,7 +68,7 @@ const EffectSettings = ({ onEffectSettingsChange, effectSettings = defaultBirdsP
     if (effectType && effectType !== selectedEffect) {
       setSelectedEffect(effectType);
     }
-  }, [effectType]);
+  }, [effectType, selectedEffect]);
 
   const handleSettingChange = (key, value) => {
     onEffectSettingsChange({
@@ -127,9 +127,7 @@ const EffectSettings = ({ onEffectSettingsChange, effectSettings = defaultBirdsP
 
   const currentEffect = EFFECT_OPTIONS.find(effect => effect.id === selectedEffect);
 
-  const handleEffectTypeChange = (event) => {
-    onEffectTypeChange(event.target.value);
-  };
+  // removed unused handleEffectTypeChange
 
   const quickPresets = [
     { name: 'Neon Birds', effect: VANTA_EFFECTS.BIRDS, settings: { ...defaultBirdsPreset.settings, color1: 0x8a2be2, color2: 0x00e0ff, colorMode: 'varianceGradient' } },

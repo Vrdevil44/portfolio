@@ -40,7 +40,7 @@ const ContactForm = ({ onSubmit }) => {
       await onSubmit?.(form)
       setStatus('success')
       setForm({ name: '', email: '', message: '' })
-    } catch (e) {
+    } catch {
       setStatus('error')
     }
   }

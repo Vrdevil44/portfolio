@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => {
   // Set base for GitHub Pages project pages.
   // Uses repo name when building for production; dev remains "/".
-  const base = mode === 'production' ? '/2025-portfolio/' : '/'
+  const base = mode === 'production' ? '/portfolio/' : '/'
 
   return {
     base,

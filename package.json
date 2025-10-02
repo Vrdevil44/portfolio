@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node -e \"const fs=require('fs');fs.existsSync('docs')&&(!fs.existsSync('docs/404.html')&&fs.copyFileSync('docs/index.html','docs/404.html'),!fs.existsSync('docs/.nojekyll')&&fs.writeFileSync('docs/.nojekyll',''));\"",
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",

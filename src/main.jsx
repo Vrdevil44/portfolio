@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
       <FontProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
             <Route element={<AppShell />}> 
               <Route index element={<Home />} />
